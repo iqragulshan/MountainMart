@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Product Management</p>
+        </div>
+
+        <a href="{{ url_for('main.manager_dashboard') }}" class="logout-btn">
+            Dashboard
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Add New Product</h2>
+
+        <p class="dashboard-subtitle">
+            Enter the product details below.
+        </p>
+
+        <form method="POST" action="{{ url_for('products.add_product') }}">
+
+            <label>Product Name</label><br>
+            <input type="text" name="name" required>
+            <br><br>
+
+            <label>Category</label><br>
+            <input type="text" name="category" required placeholder="e.g. Grocery, Drinks">
+            <br><br>
+
+            <label>Price (PKR)</label><br>
+            <input type="number" name="price" min="0" step="0.01" required>
+            <br><br>
+
+            <label>Quantity</label><br>
+            <input type="number" name="quantity" min="0" required>
+            <br><br>
+
+            <label>Minimum Stock</label><br>
+            <input type="number" name="min_stock" min="0" value="5" required>
+            <br><br>
+
+            <label>Description</label><br>
+            <textarea name="description" placeholder="Product details..."></textarea>
+            <br><br>
+
+            <button type="submit">Add Product</button>
+
+        </form>
+
+    </main>
+
+</body>
+
+</html>
