@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Inventory Management</p>
+        </div>
+
+        <a href="{{ url_for('main.manager_dashboard') }}" class="logout-btn">
+            Dashboard
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Inventory Management</h2>
+
+        <p class="dashboard-subtitle">
+            Monitor your store stock and product availability.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endwith %}
+        <div class="table-container">
+
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Available Stock</th>
+                        <th>Update Stock</th>
+                        <th>Minimum Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('products.update_stock', product_id=product.id) }}" class="stock-update-form">
+
+                                <input type="number" name="quantity" min="0" value="{{ product.quantity }}" required>
+
+                                <button type="submit">Update</button>
+
+                            </form>
+                        </td>
+                        <td>{{ product.min_stock }}</td>
+
+                        <td>
+                            {% if product.quantity == 0 %}
+                            <span class="stock-out">Out of Stock</span> {% elif product.quantity
+                            <=product.min_stock %} <span class="stock-low">Low Stock</span>
+                                {% else %}
+                                <span class="stock-good">In Stock</span> {% endif %}
+                        </td>
+                    </tr>
+
+                    {% else %}
+                    <tr>
+                        <td colspan="6">No products available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+
+</html>

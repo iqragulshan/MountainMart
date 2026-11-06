@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Product Management</p>
+        </div>
+
+        <a href="{{ url_for('products.view_products') }}" class="logout-btn">
+            Back to Products
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Edit Product</h2>
+
+        <p class="dashboard-subtitle">
+            Update the product information below.
+        </p>
+
+        <form method="POST">
+
+            <label>Product Name</label><br>
+            <input type="text" name="name" value="{{ product.name }}" required>
+
+            <br><br>
+
+            <label>Category</label><br>
+            <input type="text" name="category" value="{{ product.category }}" required>
+
+            <br><br>
+
+            <label>Price (PKR)</label><br>
+            <input type="number" name="price" value="{{ product.price }}" min="0" step="0.01" required>
+
+            <br><br>
+
+            <label>Quantity</label><br>
+            <input type="number" name="quantity" value="{{ product.quantity }}" min="0" required>
+
+            <br><br>
+
+            <label>Minimum Stock</label><br>
+            <input type="number" name="min_stock" value="{{ product.min_stock }}" min="0" required>
+
+            <br><br>
+
+            <label>Description</label><br>
+            <textarea name="description">{{ product.description or '' }}</textarea>
+
+            <br><br>
+
+            <button type="submit">Update Product</button>
+
+        </form>
+
+    </main>
+
+</body>
+
+</html>

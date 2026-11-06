@@ -15,20 +15,21 @@
     <h1>Mountain Mart</h1>
     <h2>Manager Login</h2>
 
-    <form>
+    <form method="POST" action="{{ url_for('auth.manager_login') }}">
+
         <label>Email Address</label>
-        <input type="email" placeholder="Enter your email">
+        <input type="email" name="email" placeholder="Enter your email" required>
 
         <br><br>
 
         <label>Password</label>
-        <input type="password" placeholder="Enter your password">
+        <input type="password" name="password" placeholder="Enter your password" required>
 
         <br><br>
 
         <button type="submit">Login</button>
-    </form>
 
+    </form>
 </body>
 
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>View Products | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Product Management</p>
+        </div>
+
+        <a href="{{ url_for('main.manager_dashboard') }}" class="logout-btn">
+            Dashboard
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>All Products</h2>
+
+        <p class="dashboard-subtitle">
+            Manage and view your store products.
+        </p>
+
+        <a href="{{ url_for('products.add_product') }}" class="add-product-btn">
+    + Add New Product
+</a>
+
+        <br><br>
+        <div class="table-container">
+
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price (PKR)</th>
+                        <th>Quantity</th>
+                        <th>Minimum Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>Rs. {{ product.price }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.min_stock }}</td>
+                        <td>
+                            {% if product.quantity == 0 %}
+                            <span class="stock-out">Out of Stock</span> {% elif product.quantity
+                            <=product.min_stock %} <span class="stock-low">Low Stock</span>
+
+                                {% else %}
+                                <span class="stock-good">In Stock</span> {% endif %}
+                        </td>
+                        <td>
+                            <div class="product-actions">
+
+                                <a href="{{ url_for('products.edit_product', product_id=product.id) }}" class="edit-btn">
+                                   Edit
+                                </a>
+
+                                <form method="POST" action="{{ url_for('products.delete_product', product_id=product.id) }}" class="delete-form">
+
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?');">
+                                     Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% else %}
+                    <tr>
+                        <td colspan="8">No products added yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

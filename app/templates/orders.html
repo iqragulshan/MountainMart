@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orders | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Order Management</p>
+        </div>
+
+        <a href="{{ url_for('main.manager_dashboard') }}" class="logout-btn">
+            Dashboard
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Customer Orders</h2>
+
+        <p class="dashboard-subtitle">
+            View and manage customer orders.
+        </p>
+
+        <div class="table-container">
+
+            <table class="inventory-table">
+
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for order in orders %}
+
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.customer_name or 'Unknown' }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>Rs. {{ order.total_amount }}</td>
+                        <td>{{ order.status }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="5">No orders available yet.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manager Dashboard | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>General Store · Gilgit</p>
+        </div>
+
+        <a href="{{ url_for('auth.manager_logout') }}" class="logout-btn">
+            Logout
+        </a>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-layout">
+
+            <aside class="dashboard-sidebar">
+
+                <h3>MANAGEMENT</h3>
+
+                <a href="{{ url_for('main.manager_dashboard') }}" class="sidebar-link active">▦ Dashboard</a>
+
+                <a href="{{ url_for('products.view_products') }}" class="sidebar-link">
+                 📦 Products
+                </a>
+                <a href="{{ url_for('products.inventory') }}" class="sidebar-link">
+                 🏬 Inventory
+                </a>
+                <span class="sidebar-link">🛍 Orders</span>
+                <span class="sidebar-link">👥 Customers</span>
+                <span class="sidebar-link">🚚 Suppliers</span>
+                <span class="sidebar-link">📊 Reports</span>
+                <span class="sidebar-link">⚙ Settings</span>
+
+            </aside>
+
+            <main class="dashboard-container">
+
+                <h2>Welcome, {{ session.get('user_name') }}!</h2>
+
+                <p class="dashboard-subtitle">
+                    Here's what's happening in your store today.
+                </p>
+
+                <section class="dashboard-cards">
+
+                    <div class="dashboard-card">
+                        <h3>Today's Sales</h3>
+                        <h2>Rs. 0</h2>
+                        <p>Daily revenue</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Total Products</h3>
+                        <h2>{{ total_products }}</h2>
+                        <p>Products in inventory</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>New Orders</h3>
+                        <h2>0</h2>
+                        <p>Customer orders</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Low Stock</h3>
+                        <h2>{{ low_stock }}</h2>
+                        <p>Products need attention</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Out of Stock</h3>
+                        <h2>{{ out_of_stock }}</h2>
+                        <p>Products currently unavailable</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Total Inventory</h3>
+                        <h2>{{ total_inventory }}</h2>
+                        <p>Total units in stock</p>
+                    </div>
+
+                </section>
+
+            </main>
+
+        </div>
+
+
+
+
+
+    </main>
+
+</body>
+
+</html>
