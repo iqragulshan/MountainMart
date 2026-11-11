@@ -1,12 +1,23 @@
+import os
 
 from flask import (
     Blueprint, render_template, request,
-    redirect, url_for, session, flash
+    redirect, url_for, session, flash, current_app
 )
+
+from werkzeug.utils import secure_filename
 
 from app.database import get_db
 
 products = Blueprint("products", __name__)
+
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
+def allowed_file(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    )
 
 
 @products.route("/manager/products/add", methods=["GET", "POST"])
@@ -27,15 +38,36 @@ def add_product():
         min_stock = request.form.get("min_stock")
         description = request.form.get("description")
 
+        image_file = request.files.get("image")
+        image_path = None
+
+        if image_file and image_file.filename:
+
+            if not allowed_file(image_file.filename):
+                flash("Only PNG, JPG, JPEG and WEBP images are allowed.", "error")
+                return redirect(url_for("products.add_product"))
+
+            filename = secure_filename(image_file.filename)
+
+            upload_folder = os.path.join(
+                current_app.static_folder, "uploads"
+            )
+
+            os.makedirs(upload_folder, exist_ok=True)
+
+            image_file.save(os.path.join(upload_folder, filename))
+
+            image_path = f"uploads/{filename}"
+
         db = get_db()
 
         db.execute(
             """
             INSERT INTO products
-            (name, category, price, quantity, min_stock, description)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (name, category, price, quantity, min_stock, description, image)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
-            (name, category, price, quantity, min_stock, description)
+            (name, category, price, quantity, min_stock, description, image_path)
         )
 
         db.commit()
@@ -94,6 +126,29 @@ def edit_product(product_id):
         min_stock = request.form.get("min_stock")
         description = request.form.get("description")
 
+        image_file = request.files.get("image")
+        image_path = product["image"]
+
+        if image_file and image_file.filename:
+
+            if not allowed_file(image_file.filename):
+                flash("Only PNG, JPG, JPEG and WEBP images are allowed.", "error")
+                return redirect(
+                    url_for("products.edit_product", product_id=product_id)
+             )
+
+            filename = secure_filename(image_file.filename)
+
+            upload_folder = os.path.join(
+                current_app.static_folder, "uploads"
+           )
+
+            os.makedirs(upload_folder, exist_ok=True)
+
+            image_file.save(os.path.join(upload_folder, filename))
+
+            image_path = f"uploads/{filename}"
+        
         db.execute(
             """
             UPDATE products
@@ -102,12 +157,13 @@ def edit_product(product_id):
                 price = ?,
                 quantity = ?,
                 min_stock = ?,
-                description = ?
+                description = ?,
+                image = ?
             WHERE id = ?
             """,
             (
                 name, category, price, quantity,
-                min_stock, description, product_id
+                min_stock, description, image_path, product_id
             )
         )
 

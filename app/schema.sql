@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS products (
     quantity INTEGER NOT NULL DEFAULT 0,
     min_stock INTEGER NOT NULL DEFAULT 5,
     description TEXT,
+    image TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
