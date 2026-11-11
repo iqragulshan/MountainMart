@@ -102,7 +102,10 @@
             <div class="customer-product-card">
 
                 <div class="product-image-placeholder">
-                    🛒
+
+                    {% if product.image %}
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}"> {% else %} 🛒 {% endif %}
+
                 </div>
 
                 <div class="product-card-info">

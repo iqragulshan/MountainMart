@@ -31,7 +31,7 @@
             Update the product information below.
         </p>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <label>Product Name</label><br>
             <input type="text" name="name" value="{{ product.name }}" required>
@@ -60,6 +60,18 @@
 
             <label>Description</label><br>
             <textarea name="description">{{ product.description or '' }}</textarea>
+
+            <br><br>
+
+            <label>Current Product Image</label><br> {% if product.image %}
+            <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" width="150"> {% else %}
+            <p>No image uploaded yet.</p>
+            {% endif %}
+
+            <br><br>
+
+            <label>Change Product Image</label><br>
+            <input type="file" name="image" accept="image/png, image/jpeg, image/webp">
 
             <br><br>
 
