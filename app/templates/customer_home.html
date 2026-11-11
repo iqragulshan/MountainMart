@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mountain Mart | General Store</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page">
+
+    <!-- Header -->
+    <header class="customer-header">
+
+        <div class="customer-logo">
+            <h2>Mountain Mart</h2>
+            <p>YOUR LOCAL GENERAL STORE</p>
+        </div>
+
+        <nav class="customer-nav">
+            <a href="/customer">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <div class="customer-actions">
+            <a href="#" class="cart-link">🛒 Cart</a>
+            <a href="#" class="customer-login">Login</a>
+        </div>
+
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="customer-hero">
+
+        <div class="hero-content">
+
+            <p class="hero-tagline">WELCOME TO MOUNTAIN MART</p>
+
+            <h1>
+                Everyday Essentials,
+                <span>Right Around You.</span>
+            </h1>
+
+            <p>
+                Fresh groceries and daily essentials for your home, all in one place.
+            </p>
+
+            <a href="#products" class="shop-button">
+                Explore Products
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- Products Section -->
+    <section class="customer-products" id="products">
+
+        <div class="section-heading">
+            <p>OUR COLLECTION</p>
+            <h2>Shop Your Essentials</h2>
+        </div>
+
+        <form action="{{ url_for('customer.customer_home') }}" method="GET" class="customer-search">
+
+            <input type="text" name="search" placeholder="Search products..." value="{{ search }}">
+
+            <button type="submit">Search</button>
+
+        </form>
+
+        <div class="customer-categories">
+
+            <h3>Shop by Category</h3>
+
+            <div class="category-list">
+
+                <a href="{{ url_for('customer.customer_home', search=search) }}#products" class="category-item">
+                   All
+                </a> {% for category in categories %}<a href="{{ url_for('customer.customer_home',
+                    category=category.category,
+                    search=search) }}#products" class="category-item">
+                    {{ category.category }}
+                </a> {% else %}
+                <p>No categories available yet.</p>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="customer-product-grid">
+
+            {% for product in products %}
+
+            <div class="customer-product-card">
+
+                <div class="product-image-placeholder">
+                    🛒
+                </div>
+
+                <div class="product-card-info">
+
+                    <h3>{{ product.name }}</h3>
+
+                    <p>{{ product.category }}</p>
+
+                    <h4>Rs. {{ product.price }}</h4>
+
+                    <span>
+                    Available: {{ product.quantity }}
+                </span>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <p>No products available yet.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- About Section -->
+    <section class="customer-about" id="about">
+        <h2>Mountain Mart</h2>
+        <p>Your trusted neighbourhood general store in Gilgit.</p>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
