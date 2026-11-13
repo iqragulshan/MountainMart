@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demo Payment | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page">
+
+    <header class="customer-header">
+
+        <div class="customer-logo">
+            <h2>Mountain Mart</h2>
+            <p>YOUR LOCAL GENERAL STORE</p>
+        </div>
+
+        <a href="{{ url_for('customer.customer_home') }}">
+            Continue Shopping
+        </a>
+
+    </header>
+
+
+    <main class="demo-payment-page">
+
+        <div class="demo-payment-card">
+
+            <div class="demo-payment-icon">🔒</div>
+
+            <p class="demo-label">TEST PAYMENT GATEWAY</p>
+
+            <h1>Online Payment</h1>
+
+            <div class="demo-warning">
+                <strong>Demo Mode</strong>
+                <p>
+                    This is a simulated payment. No real money will be charged and no card details are required.
+                </p>
+            </div>
+
+
+            <div class="demo-order-info">
+
+                <span>Order Number</span>
+                <strong>#{{ order.id }}</strong>
+
+                <span>Amount to Pay</span>
+                <strong class="demo-amount">
+                    Rs. {{ "%.2f"|format(order.total_amount) }}
+                </strong>
+
+            </div>
+
+
+            <form method="POST" action="{{ url_for('orders.demo_payment', order_id=order.id) }}">
+
+                <button type="submit" name="result" value="success" class="demo-success-button">
+                    Simulate Successful Payment
+                </button>
+
+                <button type="submit" name="result" value="failure" class="demo-failure-button">
+                    Simulate Failed Payment
+                </button>
+
+            </form>
+
+
+            <p class="demo-footer-text">
+                Mountain Mart Secure Demo Checkout
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

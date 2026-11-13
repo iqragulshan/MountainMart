@@ -26,6 +26,11 @@ CREATE TABLE IF NOT EXISTS orders (
     total_amount REAL NOT NULL DEFAULT 0,
     status TEXT NOT NULL DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    phone TEXT,
+    customer_name TEXT,
+    delivery_address TEXT,
+    payment_method TEXT DEFAULT 'Cash on Delivery',
+    payment_status TEXT NOT NULL DEFAULT 'Pending',
     FOREIGN KEY (customer_id) REFERENCES users(id)
 );
 

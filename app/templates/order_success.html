@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmation | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page">
+
+    <header class="customer-header">
+
+        <div class="customer-logo">
+            <h2>Mountain Mart</h2>
+            <p>YOUR LOCAL GENERAL STORE</p>
+        </div>
+
+        <a href="{{ url_for('customer.customer_home') }}">
+            Continue Shopping
+        </a>
+
+    </header>
+
+
+    <main class="order-success-page">
+
+        <div class="order-success-card">
+
+            {% if order.payment_status == 'Paid (Demo)' %}
+
+            <div class="success-icon">✓</div>
+
+            <h1>Payment Successful!</h1>
+
+            <p class="success-message">
+                Your demo payment was successful. Your order has been placed.
+            </p>
+
+            {% elif order.payment_status == 'Failed' %}
+
+            <div class="failed-icon">!</div>
+
+            <h1>Payment Failed</h1>
+
+            <p class="success-message">
+                Your payment could not be completed. Your order is saved, but payment is still pending.
+            </p>
+
+            <a href="{{ url_for('orders.demo_payment', order_id=order.id) }}" class="retry-payment-button">
+                    Try Payment Again
+                </a> {% else %}
+
+            <div class="success-icon">✓</div>
+
+            <h1>Order Placed Successfully!</h1>
+
+            <p class="success-message">
+                Thank you for shopping with Mountain Mart. Your order has been received.
+            </p>
+
+            {% endif %}
+
+
+            <div class="success-order-details">
+
+                <div>
+                    <span>Order Number</span>
+                    <strong>#{{ order.id }}</strong>
+                </div>
+
+                <div>
+                    <span>Order Status</span>
+                    <strong>{{ order.status }}</strong>
+                </div>
+
+                <div>
+                    <span>Payment Method</span>
+                    <strong>{{ order.payment_method }}</strong>
+                </div>
+
+                <div>
+                    <span>Payment Status</span>
+                    <strong>{{ order.payment_status }}</strong>
+                </div>
+
+                <div>
+                    <span>Phone</span>
+                    <strong>{{ order.phone }}</strong>
+                </div>
+
+                <div>
+                    <span>Delivery Address</span>
+                    <strong>{{ order.delivery_address }}</strong>
+                </div>
+
+                <div class="success-total">
+                    <span>Total Amount</span>
+                    <strong>
+                        Rs. {{ "%.2f"|format(order.total_amount) }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <h2 class="success-items-heading">Your Products</h2>
+
+            <div class="success-items">
+
+                {% for item in order_items %}
+
+                <div class="success-item">
+
+                    <span>{{ item.product_name }}</span>
+
+                    <span>
+                            {{ item.quantity }} ×
+                            Rs. {{ "%.2f"|format(item.price) }}
+                        </span>
+
+                </div>
+
+                {% else %}
+
+                <p>No order items found.</p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <a href="{{ url_for('customer.customer_home') }}" class="success-home-button">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
