@@ -32,7 +32,7 @@ def add_product():
     if request.method == "POST":
 
         name = request.form.get("name")
-        category = request.form.get("category")
+        category = request.form.get("category", "").strip().lower()
         price = request.form.get("price")
         quantity = request.form.get("quantity")
         min_stock = request.form.get("min_stock")
@@ -120,7 +120,7 @@ def edit_product(product_id):
     if request.method == "POST":
 
         name = request.form.get("name")
-        category = request.form.get("category")
+        category = request.form.get("category", "").strip().lower()
         price = request.form.get("price")
         quantity = request.form.get("quantity")
         min_stock = request.form.get("min_stock")
