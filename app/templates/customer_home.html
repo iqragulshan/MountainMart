@@ -4,39 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Mountain Mart | General Store</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
+<script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+
 <body class="customer-page">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <header class="customer-header">
 
-        <div class="customer-logo">
-            <h2>Mountain Mart</h2>
-            <p>YOUR LOCAL GENERAL STORE</p>
+        <div class="customer-brand">
+            <a href="{{ url_for('customer.customer_home') }}">
+            Mountain Mart
+        </a>
         </div>
 
-        <nav class="customer-nav">
-            <a href="/customer">Home</a>
-            <a href="#products">Products</a>
-            <a href="#about">About</a>
-        </nav>
-
         <div class="customer-actions">
-            <a href="#" class="cart-link">🛒 Cart</a>
-            <a href="#" class="customer-login">Login</a>
+
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+            🛒 Cart
+            {% if cart_count > 0 %}
+                <span class="cart-count-badge">{{ cart_count }}</span>
+            {% endif %}
+        </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+
+            <span class="customer-login">
+                Hi, {{ session.get('user_name') }}
+            </span>
+
+            <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
+                Logout
+            </a> {% else %}
+
+            <a href="{{ url_for('auth.customer_login') }}" class="customer-login">
+                Login
+            </a> {% endif %}
+
         </div>
 
     </header>
 
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION -->
     <section class="customer-hero">
-
         <div class="hero-content">
 
             <p class="hero-tagline">WELCOME TO MOUNTAIN MART</p>
@@ -51,30 +63,39 @@
             </p>
 
             <a href="#products" class="shop-button">
-                Explore Products
+                Shop Now
             </a>
 
         </div>
-
     </section>
 
 
-    <!-- Products Section -->
-    <section class="customer-products" id="products">
+    <!-- PRODUCTS SECTION -->
+    <section class="customer-products" id="products" method="POST">
+
 
         <div class="section-heading">
             <p>OUR COLLECTION</p>
             <h2>Shop Your Essentials</h2>
         </div>
 
-        <form action="{{ url_for('customer.customer_home') }}" method="GET" class="customer-search">
 
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+        <div class="auth-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endwith %}
+
+        <!-- SEARCH -->
+        <form action="{{ url_for('customer.customer_home') }}" method="GET" class="customer-search">
             <input type="text" name="search" placeholder="Search products..." value="{{ search }}">
 
             <button type="submit">Search</button>
-
         </form>
 
+
+        <!-- CATEGORIES -->
         <div class="customer-categories">
 
             <h3>Shop by Category</h3>
@@ -82,19 +103,19 @@
             <div class="category-list">
 
                 <a href="{{ url_for('customer.customer_home', search=search) }}#products" class="category-item">
-                   All
-                </a> {% for category in categories %}<a href="{{ url_for('customer.customer_home',
-                    category=category.category,
-                    search=search) }}#products" class="category-item">
-                    {{ category.category }}
-                </a> {% else %}
+                    All
+                </a> {% for category in categories %}
+                <a href="{{ url_for('customer.customer_home', category=category.category, search=search) }}#products" class="category-item">
+                        {{ category.category|title }}
+                    </a> {% else %}
                 <p>No categories available yet.</p>
                 {% endfor %}
 
             </div>
-
         </div>
 
+
+        <!-- PRODUCT GRID -->
         <div class="customer-product-grid">
 
             {% for product in products %}
@@ -104,29 +125,53 @@
                 <div class="product-image-placeholder">
 
                     {% if product.image %}
-                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}"> {% else %} 🛒 {% endif %}
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" loading="lazy"> {% else %}
+                    <span>🛒</span> {% endif %}
 
                 </div>
+
 
                 <div class="product-card-info">
 
                     <h3>{{ product.name }}</h3>
 
-                    <p>{{ product.category }}</p>
+                    <p>{{ product.category|title }}</p>
 
-                    <h4>Rs. {{ product.price }}</h4>
+                    <h4>
+                        Rs. {{ "%.2f"|format(product.price) }}
+                    </h4>
+
+                    {% if product.quantity > 0 %}
 
                     <span>
-                    Available: {{ product.quantity }}
-                </span>
+                                Available: {{ product.quantity }}
+                            </span>
+                    <form method="POST" action="{{ url_for('customer.add_to_cart', product_id=product.id) }}">
+
+                        <input type="hidden" name="category" value="{{ selected_category }}">
+                        <input type="hidden" name="search" value="{{ search }}">
+
+                        <button type="submit" class="add-to-cart-button">
+                         Add to Cart +
+                        </button>
+
+                    </form>
+                    {% else %}
+
+                    <span class="out-of-stock">
+                                Out of Stock
+                            </span>
+
+                    <button type="button" class="add-to-cart-button" disabled>
+                                Unavailable
+                            </button> {% endif %}
 
                 </div>
-
             </div>
 
             {% else %}
 
-            <p>No products available yet.</p>
+            <p>No products found.</p>
 
             {% endfor %}
 
@@ -135,14 +180,19 @@
     </section>
 
 
-    <!-- About Section -->
+    <!-- ABOUT SECTION -->
     <section class="customer-about" id="about">
+
         <h2>Mountain Mart</h2>
-        <p>Your trusted neighbourhood general store in Gilgit.</p>
+
+        <p>
+            Your trusted neighbourhood general store in Gilgit. Everyday essentials, conveniently available.
+        </p>
+
     </section>
 
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="customer-footer">
         <p>© 2026 Mountain Mart. All rights reserved.</p>
     </footer>

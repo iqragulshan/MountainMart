@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/cart.js') }}" defer></script>
+</head>
+
+<body class="customer-page">
+
+    <!-- HEADER -->
+    <header class="customer-header">
+
+        <div class="customer-logo">
+            <h2>Mountain Mart</h2>
+            <p>YOUR LOCAL GENERAL STORE</p>
+        </div>
+
+        <nav class="customer-nav">
+            <a href="{{ url_for('customer.customer_home') }}">Home</a>
+            <a href="{{ url_for('customer.customer_home') }}#products">Products</a>
+        </nav>
+
+        <div class="customer-actions">
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+                🛒 Cart ({{ cart_count }})
+            </a>
+        </div>
+
+    </header>
+
+
+    <!-- CART CONTENT -->
+    <main class="cart-page">
+
+        <div class="cart-heading">
+            <p>YOUR SHOPPING BAG</p>
+            <h1>Shopping Cart</h1>
+            <span>Review your selected everyday essentials.</span>
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+        <div class="auth-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endwith %} {% if cart_items %}
+
+        <div class="cart-layout">
+
+            <!-- CART ITEMS -->
+            <section class="cart-items">
+
+                {% for item in cart_items %}
+
+                <article class="cart-item">
+
+                    <!-- PRODUCT IMAGE -->
+                    <div class="cart-product-image">
+
+                        {% if item.product.image %}
+                        <img src="{{ url_for('static', filename=item.product.image) }}" alt="{{ item.product.name }}" loading="lazy"> {% else %}
+                        <span>🛒</span> {% endif %}
+
+                    </div>
+
+
+                    <!-- PRODUCT DETAILS -->
+                    <div class="cart-product-info">
+
+                        <h3>{{ item.product.name }}</h3>
+
+                        <p>{{ item.product.category|title }}</p>
+
+                        <strong>
+                            Rs. {{ "%.2f"|format(item.product.price) }}
+                        </strong>
+
+                        <span class="cart-stock">
+                            {{ item.product.quantity }} available
+                        </span>
+
+                    </div>
+
+
+                    <!-- QUANTITY AND REMOVE -->
+                    <div class="cart-item-controls">
+
+                        <form method="POST" action="{{ url_for('customer.update_cart', product_id=item.product.id) }}" class="quantity-form">
+
+                            <label for="quantity-{{ item.product.id }}">
+                                Quantity
+                            </label>
+
+                            <div class="quantity-stepper">
+
+                                <button type="button" class="quantity-step" data-action="decrease" aria-label="Decrease quantity">
+                                    −
+                                </button>
+
+                                <input id="quantity-{{ item.product.id }}" type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.quantity }}" required aria-label="Product quantity">
+
+                                <button type="button" class="quantity-step" data-action="increase" aria-label="Increase quantity">
+                                    +
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- REMOVE PRODUCT -->
+                        <form method="POST" action="{{ url_for('customer.remove_from_cart', product_id=item.product.id) }}" class="remove-form" onsubmit="return confirm('Remove this product from your cart?')">
+
+                            <button type="submit" class="remove-cart-button" title="Remove item" aria-label="Remove {{ item.product.name }}">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                    focusable="false">
+
+                                    <path
+                                        d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+
+                                </svg>
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- SUBTOTAL -->
+                    <div class="cart-item-subtotal">
+
+                        <span>Subtotal</span>
+
+                        <strong>
+                            Rs. {{ "%.2f"|format(item.subtotal) }}
+                        </strong>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </section>
+
+
+            <!-- ORDER SUMMARY -->
+            <aside class="cart-summary">
+
+                <h2>Order Summary</h2>
+
+                <div class="summary-row">
+                    <span>Items</span>
+                    <span>{{ cart_count }}</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>
+                        Rs. {{ "%.2f"|format(cart_total) }}
+                    </strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <span>Calculated at checkout</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <strong>
+                        Rs. {{ "%.2f"|format(cart_total) }}
+                    </strong>
+                </div>
+
+                <a href="{{ url_for('customer.checkout') }}" class="checkout-button">
+                    Proceed to Checkout →
+                </a>
+
+                <a href="{{ url_for('customer.customer_home') }}#products" class="continue-shopping">
+                    ← Continue Shopping
+                </a>
+
+            </aside>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- EMPTY CART -->
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">🛒</div>
+
+            <h2>Your Cart is Empty</h2>
+
+            <p>
+                You haven't added any products to your cart yet. Explore our collection and find your essentials.
+            </p>
+
+            <a href="{{ url_for('customer.customer_home') }}#products" class="shop-button">
+                Start Shopping
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

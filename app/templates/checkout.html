@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page">
+
+    <!-- HEADER -->
+    <header class="customer-header">
+
+        <div class="customer-logo">
+            <h2>Mountain Mart</h2>
+            <p>YOUR LOCAL GENERAL STORE</p>
+        </div>
+
+        <nav class="customer-nav">
+            <a href="{{ url_for('customer.customer_home') }}">Home</a>
+            <a href="{{ url_for('customer.view_cart') }}">Cart</a>
+        </nav>
+
+        <div class="customer-actions">
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+                🛒 Cart ({{ cart_count }})
+            </a>
+        </div>
+
+    </header>
+
+
+    <!-- CHECKOUT -->
+    <main class="checkout-page">
+
+        <div class="cart-heading">
+            <p>ALMOST THERE</p>
+            <h1>Checkout</h1>
+            <span>Enter your delivery details to place your order.</span>
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+        <div class="auth-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endwith %}
+
+
+        <div class="checkout-layout">
+
+            <!-- DELIVERY FORM -->
+            <section class="checkout-form-section">
+
+                <h2>Delivery Information</h2>
+
+                <form method="POST" action="{{ url_for('customer.checkout') }}">
+
+                    <div class="checkout-field">
+                        <label for="customer_name">Full Name</label>
+
+                        <input type="text" id="customer_name" name="customer_name" placeholder="Enter your full name" maxlength="100" autocomplete="name" required>
+                    </div>
+
+
+                    <div class="checkout-field">
+                        <label for="phone">Phone Number</label>
+
+                        <input type="tel" id="phone" name="phone" placeholder="03XXXXXXXXX" maxlength="20" autocomplete="tel" inputmode="tel" required>
+                    </div>
+
+
+                    <div class="checkout-field">
+                        <label for="address">Delivery Address</label>
+
+                        <textarea id="address" name="address" rows="4" maxlength="500" placeholder="Enter your complete delivery address" autocomplete="street-address" required></textarea>
+                    </div>
+
+
+                    <!-- PAYMENT METHODS -->
+                    <h2 class="payment-heading">Payment Method</h2>
+
+                    <div class="payment-methods">
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="Cash on Delivery"
+                                checked
+                            >
+
+                            <span>
+                                <strong>Cash on Delivery</strong>
+                                <small>Pay when your order arrives.</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="Demo Online Payment"
+                            >
+
+                            <span>
+                                <strong>Online Payment (Demo)</strong>
+                                <small>
+                                    Test payment only. No real money will be charged.
+                                </small>
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <button type="submit" class="place-order-button">
+                        Place Order
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- ORDER SUMMARY -->
+            <aside class="checkout-summary">
+
+                <h2>Your Order</h2>
+
+                {% for item in cart_items %}
+
+                <div class="checkout-product">
+
+                    <div>
+                        <strong>{{ item.product.name }}</strong>
+                        <small>Quantity: {{ item.quantity }}</small>
+                    </div>
+
+                    <span>
+                            Rs. {{ "%.2f"|format(item.subtotal) }}
+                        </span>
+
+                </div>
+
+                {% endfor %}
+
+
+                <div class="checkout-total">
+
+                    <span>Total Amount</span>
+
+                    <strong>
+                        Rs. {{ "%.2f"|format(cart_total) }}
+                    </strong>
+
+                </div>
+
+
+                <a href="{{ url_for('customer.view_cart') }}" class="continue-shopping">
+                    ← Back to Cart
+                </a>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
