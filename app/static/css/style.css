@@ -2284,3 +2284,76 @@ CART - QUANTITY AND REMOVE CONTROLS
         }
     }
 }
+
+.auth-message.error {
+    background-color: #fff0f0;
+    color: #c62828;
+    border: 1px solid #efb5b5;
+    padding: 7px 10px;
+    margin: 12px auto;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.manager-login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.manager-login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.manager-login-container h1,
+.manager-login-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.manager-login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.manager-login-container input {
+    width: 100%;
+    padding: 11px;
+    border-radius: 6px;
+}
+
+.manager-login-container button {
+    margin-top: 10px;
+}
+
+.manager-login-container .auth-message {
+    margin-top: 15px;
+}
+
+.email-suggestions {
+    width: 100%;
+    background: transparent;
+    margin-top: 2px;
+}
+
+.email-suggestion {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.email-suggestion:hover {
+    background: #f0f4ef;
+}

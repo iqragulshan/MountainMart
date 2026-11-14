@@ -5,31 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mountain Mart - Manager Login</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
 
-<body>
+<script src="{{ url_for('static', filename='js/manager-login.js') }}" defer></script>
 
-    <h1>Mountain Mart</h1>
-    <h2>Manager Login</h2>
+<body class="manager-login-page">
 
-    <form method="POST" action="{{ url_for('auth.manager_login') }}">
+    <div class="manager-login-container">
 
-        <label>Email Address</label>
-        <input type="email" name="email" placeholder="Enter your email" required>
+        <h1>Mountain Mart</h1>
+        <h2>Manager Login</h2>
 
-        <br><br>
+        <form method="POST" action="{{ url_for('auth.manager_login') }}">
 
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter your password" required>
+            <label>Email Address</label>
+            <input type="email" id="manager-email" name="email" placeholder="Enter your email" autocomplete="username" required>
 
-        <br><br>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
 
-        <button type="submit">Login</button>
+            <button type="submit">Login</button>
 
-    </form>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+        <div class="auth-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+    </div>
+
 </body>
 
 </html>
