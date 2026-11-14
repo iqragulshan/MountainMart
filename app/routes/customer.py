@@ -6,6 +6,8 @@ from flask import (
 
 from app.database import get_db
 
+from flask import make_response
+
 customer = Blueprint("customer", __name__)
 
 
@@ -44,15 +46,21 @@ def customer_home():
 
     cart = session.get("cart", {})
     cart_count = sum(int(qty) for qty in cart.values())
-
-    return render_template(
+    
+    response = make_response(render_template(
         "customer_home.html",
         products=products,
         search=search,
         categories=categories,
         selected_category=selected_category,
         cart_count=cart_count
-    )
+    ))
+
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+
+    return response
 
 # ADD PRODUCT TO CART
 @customer.route(
