@@ -23,24 +23,18 @@
 
         <div class="customer-actions">
 
+            {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+            <span class="customer-login">Hi, {{ session.get('user_name') }}</span> {% endif %}
+
             <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
-            🛒 Cart
-            {% if cart_count > 0 %}
-                <span class="cart-count-badge">{{ cart_count }}</span>
-            {% endif %}
+        🛒 Cart
+        {% if cart_count > 0 %}
+            <span class="cart-count-badge">{{ cart_count }}</span>
+        {% endif %}
+
         </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
-
-            <span class="customer-login">
-                Hi, {{ session.get('user_name') }}
-            </span>
-
-            <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
-                Logout
-            </a> {% else %}
-
-            <a href="{{ url_for('auth.customer_login') }}" class="customer-login">
-                Login
-            </a> {% endif %}
+            <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">Logout</a> {% else %}
+            <a href="{{ url_for('auth.customer_login') }}" class="customer-login">Login</a> {% endif %}
 
         </div>
 
