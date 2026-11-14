@@ -25,23 +25,26 @@
                 <span>Sign in to continue shopping with us.</span>
             </div>
 
-            {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
-            <div class="auth-message {{ category }}">{{ message }}</div>
-            {% endfor %} {% endwith %}
+            <form id="customer-login-form" method="POST" action="{{ url_for('auth.customer_login') }}">
 
-            <form method="POST" action="{{ url_for('auth.customer_login') }}">
+                <label for="customer-email">Email Address</label>
+                <input type="email" id="customer-email" name="email" placeholder="Enter your email" autocomplete="section-customer username" required>
 
-                <label>Email Address</label>
-                <input type="email" name="email" placeholder="Enter your email" required>
-
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter your password" required>
+                <label for="customer-password">Password</label>
+                <input type="password" id="customer-password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
 
                 <button type="submit" class="auth-button">
                     Login to Account
                 </button>
 
             </form>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+            <div class="auth-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %} {% endwith %}
 
             <p class="auth-switch">
                 Don't have an account?
@@ -54,9 +57,13 @@
 
         </div>
 
-        <p class="auth-footer">© 2026 Mountain Mart. All rights reserved.</p>
+        <p class="auth-footer">
+            © 2026 Mountain Mart. All rights reserved.
+        </p>
 
     </div>
+
+    <script src="{{ url_for('static', filename='js/customer-login.js') }}"></script>
 
 </body>
 

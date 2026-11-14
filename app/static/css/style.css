@@ -583,6 +583,225 @@ form button:hover {
 }
 
 
+/* =================================
+   CUSTOMER LOGIN PAGE
+================================= */
+
+.customer-page {
+    background: #f4f6f1;
+    min-height: 100vh;
+}
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+}
+
+.auth-brand {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #26352c;
+    margin-bottom: 25px;
+}
+
+.auth-brand h2 {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.auth-brand p {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #78917f;
+    margin-top: 5px;
+}
+
+.auth-card {
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 14px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+}
+
+.auth-heading {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-heading>p {
+    color: #78917f;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 9px;
+}
+
+.auth-heading h1 {
+    color: #26352c;
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.auth-heading span {
+    color: #849087;
+    font-size: 13px;
+}
+
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.auth-card label {
+    color: #34483a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dce3dc;
+    border-radius: 7px;
+    background: #fbfcfa;
+    color: #26352c;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.auth-card input:focus {
+    border-color: #78917f;
+    background: #ffffff;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 7px;
+    background: #344f3c;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.auth-button:hover {
+    background: #263d2e;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 23px;
+    color: #849087;
+    font-size: 13px;
+}
+
+.auth-switch a {
+    color: #42654b;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+.back-home {
+    display: block;
+    text-align: center;
+    margin-top: 22px;
+    color: #78917f;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.back-home:hover {
+    color: #344f3c;
+}
+
+.auth-footer {
+    text-align: center;
+    color: #9aa49c;
+    font-size: 11px;
+    margin-top: 25px;
+}
+
+
+/* Login Messages */
+
+.auth-message {
+    padding: 9px 11px;
+    margin: 12px 0;
+    border-radius: 5px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.auth-message.error {
+    color: #c0392b;
+    background: #fff0ee;
+}
+
+.auth-message.success {
+    color: #287447;
+    background: #edf8f0;
+}
+
+
+/* Email Suggestions */
+
+.email-suggestions {
+    display: none;
+    width: 100%;
+    background: transparent;
+    border: none;
+    margin-top: 2px;
+    padding: 0;
+    box-shadow: none;
+}
+
+.email-suggestion {
+    padding: 7px 10px;
+    cursor: pointer;
+    color: #26352c;
+    font-size: 14px;
+}
+
+.email-suggestion:hover {
+    background: #f0f4ef;
+    border-radius: 5px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 28px 22px;
+    }
+    .auth-heading h1 {
+        font-size: 24px;
+    }
+}
+
+
 /* CUSTOMER HOME PAGE */
 
 .customer-page {
@@ -2371,4 +2590,87 @@ CART - QUANTITY AND REMOVE CONTROLS
     border-color: #2d604b;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(24, 61, 50, 0.18);
+
+.auth-message.error {
+    background-color: #fff0f0;
+    color: #c62828;
+    border: 1px solid #efb5b5;
+    padding: 7px 10px;
+    margin: 12px auto;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.manager-login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.manager-login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.manager-login-container h1,
+.manager-login-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.manager-login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.manager-login-container input {
+    width: 100%;
+    padding: 11px;
+    border-radius: 6px;
+}
+
+.manager-login-container button {
+    margin-top: 10px;
+}
+
+.manager-login-container .auth-message {
+    margin-top: 15px;
+}
+
+.email-suggestions {
+    width: 100%;
+    background: transparent;
+    margin-top: 2px;
+}
+
+.email-suggestion {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.email-suggestion:hover {
+    background: #f0f4ef;
+}
+
+.auth-message.error {
+    color: #c0392b;
+    background: #fff0ee;
+    border: 1px solid #f5c6c2;
+    padding: 10px 12px;
+    margin-top: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
 }
