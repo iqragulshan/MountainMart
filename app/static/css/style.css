@@ -186,32 +186,78 @@ button:hover {
 
 .dashboard-sidebar {
     width: 230px;
+    min-width: 230px;
     flex-shrink: 0;
+    box-sizing: border-box;
     background: #183d32;
-    padding: 28px 18px;
+    padding: 28px 16px;
+    min-height: 100%;
 }
 
 .dashboard-sidebar h3 {
     color: #a9c4b5;
-    font-size: 12px;
-    letter-spacing: 1px;
-    margin: 5px 10px 22px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    margin: 5px 10px 24px;
+    text-transform: uppercase;
 }
 
 .sidebar-link {
-    display: block;
-    padding: 13px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
     margin-bottom: 7px;
-    border-radius: 7px;
-    color: #e0ebe4;
+    border-radius: 8px;
+    color: #dce8e0;
     text-decoration: none;
     font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: #294c3d;
+    color: #ffffff;
 }
 
 .sidebar-link.active {
     background: #315c49;
-    color: white;
-    font-weight: bold;
+    color: #ffffff;
+    font-weight: 700;
+    border-left: 4px solid #a8d5b7;
+    padding-left: 11px;
+}
+
+.sidebar-link span:first-child {
+    min-width: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-link.coming-soon {
+    justify-content: flex-start;
+    color: #9eafa5;
+    cursor: default;
+    opacity: 0.75;
+}
+
+.sidebar-link.coming-soon:hover {
+    background: transparent;
+    color: #9eafa5;
+}
+
+.sidebar-link.coming-soon small {
+    margin-left: auto;
+    font-size: 9px;
+    color: #b9c9bf;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .dashboard-container {
@@ -1300,14 +1346,34 @@ form button:hover {
 }
 
 .checkout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: 14px;
-    background: #aab6ad;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    font-weight: 600;
-    cursor: not-allowed;
+    box-sizing: border-box;
+    padding: 15px 18px;
+    background: #183d32;
+    color: #ffffff;
+    border: 1px solid #183d32;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkout-button:hover {
+    background: #2d604b;
+    border-color: #2d604b;
+    box-shadow: 0 5px 14px rgba(24, 61, 50, 0.18);
+    transform: translateY(-2px);
+}
+
+.checkout-button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .continue-shopping {
@@ -2503,6 +2569,27 @@ CART - QUANTITY AND REMOVE CONTROLS
         }
     }
 }
+
+.success-header-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    background: #183d32;
+    color: #ffffff;
+    border: 1px solid #183d32;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.success-header-button:hover {
+    background: #2d604b;
+    border-color: #2d604b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 61, 50, 0.18);
 
 .auth-message.error {
     background-color: #fff0f0;

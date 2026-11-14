@@ -1,4 +1,4 @@
-from flask import Flask, app
+from flask import Flask
 from app.routes import customer, orders
 from config import Config
 from app.database import close_db
