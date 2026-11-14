@@ -95,12 +95,13 @@ def update_order_status(order_id):
         return "Access denied!", 403
 
     allowed_statuses = [
-        "Pending",
-        "Confirmed",
-        "Processing",
-        "Delivered",
-        "Cancelled"
-    ]
+    "Pending",
+    "Confirmed",
+    "Processing",
+    "Dispatched",
+    "Delivered",
+    "Cancelled"
+]
 
     new_status = request.form.get("status")
 

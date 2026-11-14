@@ -8,98 +8,184 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="dashboard-page">
+<body class="dashboard-page order-details-page">
 
     <header class="dashboard-header">
         <div>
             <h1>Mountain Mart</h1>
-            <p>Order Details</p>
+            <p>Order Management</p>
         </div>
 
         <a href="{{ url_for('orders.view_orders') }}" class="logout-btn">
-            Back to Orders
+            ← Back to Orders
         </a>
     </header>
 
-    <main class="dashboard-container">
+    <main class="dashboard-container order-details-container">
 
-        <h2>Order #{{ order.id }}</h2>
-        <p class="dashboard-subtitle">Complete customer order information.</p>
+        <div class="order-page-heading">
+            <div>
+                <h2>Order #{{ order.id }}</h2>
+                <p class="dashboard-subtitle">
+                    Review order information and manage its progress.
+                </p>
+            </div>
 
-        <div class="table-container">
-            <h3>Customer Information</h3>
-
-            <p><strong>Customer:</strong> {{ order.display_customer_name }}</p>
-            <p><strong>Phone:</strong> {{ order.phone or 'N/A' }}</p>
-            <p><strong>Delivery Address:</strong> {{ order.delivery_address or 'N/A' }}</p>
-            <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+            <span class="order-status-badge status-{{ order.status|lower }}">
+                {{ order.status }}
+            </span>
         </div>
 
-        <div class="table-container" style="margin-top: 25px;">
-            <h3>Ordered Products</h3>
+        <div class="order-info-grid">
 
-            <table class="inventory-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
+            <section class="order-info-card">
+                <div class="order-card-heading">
+                    <span class="order-card-icon">👤</span>
+                    <h3>Customer Information</h3>
+                </div>
 
-                <tbody>
-                    {% for item in order_items %}
-                    <tr>
-                        <td>{{ item.product_name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>Rs. {{ "%.2f"|format(item.price) }}</td>
-                        <td>Rs. {{ "%.2f"|format(item.price * item.quantity) }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4">No products found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <div class="order-info-row">
+                    <span>Customer</span>
+                    <strong>{{ order.display_customer_name }}</strong>
+                </div>
 
-            <h3 style="text-align: right; margin-top: 20px;">
-                Total: Rs. {{ "%.2f"|format(order.total_amount) }}
-            </h3>
+                <div class="order-info-row">
+                    <span>Phone</span>
+                    <strong>{{ order.phone or 'N/A' }}</strong>
+                </div>
+
+                <div class="order-info-row">
+                    <span>Delivery Address</span>
+                    <strong>{{ order.delivery_address or 'N/A' }}</strong>
+                </div>
+
+                <div class="order-info-row">
+                    <span>Order Date</span>
+                    <strong>{{ order.created_at }}</strong>
+                </div>
+            </section>
+
+            <section class="order-info-card">
+                <div class="order-card-heading">
+                    <span class="order-card-icon">💳</span>
+                    <h3>Payment Information</h3>
+                </div>
+
+                <div class="order-info-row">
+                    <span>Payment Method</span>
+                    <strong>{{ order.payment_method }}</strong>
+                </div>
+
+                <div class="order-info-row">
+                    <span>Payment Status</span>
+                    <strong>{{ order.payment_status }}</strong>
+                </div>
+
+                <div class="payment-total-box">
+                    <span>Total Amount</span>
+                    <strong>Rs. {{ "%.2f"|format(order.total_amount) }}</strong>
+                </div>
+            </section>
+
         </div>
 
-        <div class="table-container" style="margin-top: 25px;">
-            <h3>Payment Information</h3>
+        <section class="order-info-card ordered-products-card">
 
-            <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
-            <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
-        </div>
+            <div class="order-card-heading">
+                <span class="order-card-icon">📦</span>
+                <h3>Ordered Products</h3>
+            </div>
 
-        <div class="table-container" style="margin-top: 25px;">
-            <h3>Update Order Status</h3>
+            <div class="order-table-wrapper">
+                <table class="inventory-table order-items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
 
-            <form method="POST" action="{{ url_for('orders.update_order_status', order_id=order.id) }}">
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs. {{ "%.2f"|format(item.price) }}</td>
+                            <td>
+                                Rs. {{ "%.2f"|format(item.price * item.quantity) }}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4">No products found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                <select name="status" required>
-                    {% for status in ['Pending', 'Confirmed', 'Processing', 'Delivered', 'Cancelled'] %}
-                    <option value="{{ status }}"
-                        {% if order.status == status %}selected{% endif %}>
-                        {{ status }}
-                    </option>
-                    {% endfor %}
-                </select>
+            <div class="order-grand-total">
+                <span>Order Total</span>
+                <strong>Rs. {{ "%.2f"|format(order.total_amount) }}</strong>
+            </div>
 
-                <button type="submit" class="auth-button">
-                    Update Status
-                </button>
+        </section>
+
+        <section class="order-status-card">
+
+            <div class="status-panel-heading">
+                <div>
+                    <h3>Manage Order Status</h3>
+                    <p>Track and update this order's progress.</p>
+                </div>
+                <span class="status-icon">↻</span>
+            </div>
+
+            <div class="status-current-box">
+                <div>
+                    <small>CURRENT ORDER STATUS</small>
+                    <h3>{{ order.status }}</h3>
+                </div>
+
+                <span class="order-status-badge status-{{ order.status|lower }}">
+            {{ order.status }}
+        </span>
+            </div>
+
+            <form method="POST" action="{{ url_for('orders.update_order_status', order_id=order.id) }}" class="status-update-form">
+
+                <label for="order-status">Change Order Status</label>
+
+                <select name="status" id="order-status" required>
+            {% for status in [
+                'Pending',
+                'Confirmed',
+                'Processing',
+                'Dispatched',
+                'Delivered',
+                'Cancelled'
+            ] %}
+            <option value="{{ status }}"
+                {% if order.status == status %}selected{% endif %}>
+                {{ status }}
+            </option>
+            {% endfor %}
+        </select>
+
+                <p class="status-help-text">
+                    Select the appropriate status according to the order's progress.
+                </p>
+
+                <button type="submit" class="status-save-button">
+            Save Status Changes
+            <span>→</span>
+        </button>
+
             </form>
 
-            <p style="margin-top: 15px;">
-                <strong>Current Status:</strong> {{ order.status }}
-            </p>
-        </div>
-
+        </section>
     </main>
 
 </body>
