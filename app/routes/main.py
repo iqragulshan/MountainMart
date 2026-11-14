@@ -1,3 +1,4 @@
+
 from flask import Blueprint, redirect, url_for, session, render_template
 from app.database import get_db
 
@@ -42,10 +43,18 @@ def manager_dashboard():
         "SELECT COALESCE(SUM(quantity), 0) FROM products"
     ).fetchone()[0]
 
+    new_orders = db.execute(
+        """
+        SELECT COUNT(*) FROM orders
+        WHERE status = 'Pending'
+        """
+    ).fetchone()[0]
+
     return render_template(
         "manager_dashboard.html",
         total_products=total_products,
         low_stock=low_stock,
         out_of_stock=out_of_stock,
-        total_inventory=total_inventory
+        total_inventory=total_inventory,
+        new_orders=new_orders
     )

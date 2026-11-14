@@ -29,25 +29,49 @@
 
         <div class="dashboard-layout">
 
+
             <aside class="dashboard-sidebar">
 
                 <h3>MANAGEMENT</h3>
 
-                <a href="{{ url_for('main.manager_dashboard') }}" class="sidebar-link active">▦ Dashboard</a>
+                <a href="{{ url_for('main.manager_dashboard') }}" class="sidebar-link active">
+                    <span>▦</span> Dashboard
+                </a>
 
                 <a href="{{ url_for('products.view_products') }}" class="sidebar-link">
-                 📦 Products
+                    <span>📦</span> Products
                 </a>
+
                 <a href="{{ url_for('products.inventory') }}" class="sidebar-link">
-                 🏬 Inventory
+                    <span>🏬</span> Inventory
                 </a>
-                <span class="sidebar-link">🛍 Orders</span>
-                <span class="sidebar-link">👥 Customers</span>
-                <span class="sidebar-link">🚚 Suppliers</span>
-                <span class="sidebar-link">📊 Reports</span>
-                <span class="sidebar-link">⚙ Settings</span>
+
+                <a href="{{ url_for('orders.view_orders') }}" class="sidebar-link">
+                    <span>🛍</span> Orders
+                </a>
+
+                <div class="sidebar-link coming-soon">
+                    <span>👥</span> Customers
+                    <small>Coming Soon</small>
+                </div>
+
+                <div class="sidebar-link coming-soon">
+                    <span>🚚</span> Suppliers
+                    <small>Coming Soon</small>
+                </div>
+
+                <div class="sidebar-link coming-soon">
+                    <span>📊</span> Reports
+                    <small>Coming Soon</small>
+                </div>
+
+                <div class="sidebar-link coming-soon">
+                    <span>⚙</span> Settings
+                    <small>Coming Soon</small>
+                </div>
 
             </aside>
+
 
             <main class="dashboard-container">
 
@@ -73,7 +97,7 @@
 
                     <div class="dashboard-card">
                         <h3>New Orders</h3>
-                        <h2>0</h2>
+                        <h2>{{ new_orders }}</h2>
                         <p>Customer orders</p>
                     </div>
 

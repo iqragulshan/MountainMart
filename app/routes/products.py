@@ -195,7 +195,7 @@ def delete_product(product_id):
     )
 
     db.commit()
-
+    
     flash("Product deleted successfully!", "success")
 
     return redirect(url_for("products.view_products"))

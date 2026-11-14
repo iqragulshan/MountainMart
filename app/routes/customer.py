@@ -54,6 +54,7 @@ def customer_home():
         cart_count=cart_count
     )
 
+
 # ADD PRODUCT TO CART
 @customer.route(
     "/customer/cart/add/<int:product_id>",
@@ -105,6 +106,7 @@ def add_to_cart(product_id):
 
     return return_to_products()
 
+
 # VIEW SHOPPING CART
 @customer.route("/customer/cart")
 def view_cart():
@@ -141,6 +143,7 @@ def view_cart():
         cart_total=cart_total,
         cart_count=sum(cart.values())
     )
+
 
 # UPDATE CART QUANTITY
 @customer.route(
@@ -183,6 +186,7 @@ def update_cart(product_id):
 
     return redirect(url_for("customer.view_cart"))
 
+
 # REMOVE PRODUCT FROM CART
 @customer.route(
     "/customer/cart/remove/<int:product_id>",
@@ -198,6 +202,7 @@ def remove_from_cart(product_id):
     session.modified = True
 
     return redirect(url_for("customer.view_cart"))
+
 
 # CHECKOUT PAGE
 @customer.route("/customer/checkout", methods=["GET", "POST"])
@@ -237,6 +242,8 @@ def checkout():
         flash("Your cart has no valid products.", "error")
         return redirect(url_for("customer.view_cart"))
 
+    cart_count = sum(int(qty) for qty in cart.values())
+
     if request.method == "POST":
 
         customer_name = request.form.get("customer_name", "").strip()
@@ -247,13 +254,20 @@ def checkout():
         if not customer_name or not phone or not address:
             flash("Please complete all delivery details.", "error")
 
-        elif len(customer_name) > 100 or len(phone) > 20 or len(address) > 500:
+        elif (
+            len(customer_name) > 100
+            or len(phone) > 20
+            or len(address) > 500
+        ):
             flash("Please check the length of your details.", "error")
 
         elif not phone.replace("+", "").replace("-", "").replace(" ", "").isdigit():
             flash("Please enter a valid phone number.", "error")
 
-        elif payment_method not in ["Cash on Delivery", "Demo Online Payment"]:
+        elif payment_method not in [
+            "Cash on Delivery",
+            "Demo Online Payment"
+        ]:
             flash("Please select a valid payment method.", "error")
 
         else:
@@ -283,18 +297,18 @@ def checkout():
                 # Create order
                 cursor = db.execute(
                     """
-                   INSERT INTO orders
-                (
-                   customer_id,
-                   total_amount,
-                   status,
-                   phone,
-                   customer_name,
-                   delivery_address,
-                   payment_method,
-                   payment_status
-                ) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO orders
+                    (
+                        customer_id,
+                        total_amount,
+                        status,
+                        phone,
+                        customer_name,
+                        delivery_address,
+                        payment_method,
+                        payment_status
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         customer_id,
@@ -365,12 +379,10 @@ def checkout():
                     "error"
                 )
 
-        cart = session.get("cart", {})
-        cart_count = sum(int(qty) for qty in cart.values())
-
-        return render_template(
-            "checkout.html",
-            cart_items=cart_items,
-            cart_total=cart_total,
-            cart_count=cart_count
-        )
+    # Display checkout page for GET and unsuccessful POST requests.
+    return render_template(
+        "checkout.html",
+        cart_items=cart_items,
+        cart_total=cart_total,
+        cart_count=cart_count
+    )
