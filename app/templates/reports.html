@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Reports | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>General Store · Gilgit</p>
+        </div>
+
+        <a href="{{ url_for('auth.manager_logout') }}" class="logout-btn">
+            Logout
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-layout">
+
+            <!-- SIDEBAR -->
+            <aside class="dashboard-sidebar">
+
+                <h3>MANAGEMENT</h3>
+
+                <a href="{{ url_for('main.manager_dashboard') }}" class="sidebar-link">
+                    <span>▦</span> Dashboard
+                </a>
+
+                <a href="{{ url_for('products.view_products') }}" class="sidebar-link">
+                    <span>📦</span> Products
+                </a>
+
+                <a href="{{ url_for('products.inventory') }}" class="sidebar-link">
+                    <span>🏬</span> Inventory
+                </a>
+
+                <a href="{{ url_for('orders.view_orders') }}" class="sidebar-link">
+                    <span>🛍</span> Orders
+                </a>
+
+                <div class="sidebar-link coming-soon">
+                    <span>👥</span> Customers
+                    <small>Coming Soon</small>
+                </div>
+
+                <div class="sidebar-link coming-soon">
+                    <span>🚚</span> Suppliers
+                    <small>Coming Soon</small>
+                </div>
+
+                <a href="{{ url_for('main.sales_reports') }}" class="sidebar-link active">
+                    <span>📊</span> Reports
+                </a>
+
+                <div class="sidebar-link coming-soon">
+                    <span>⚙</span> Settings
+                    <small>Coming Soon</small>
+                </div>
+
+            </aside>
+
+            <!-- REPORTS CONTENT -->
+            <section class="reports-content">
+
+                <!-- PAGE HEADING -->
+                <div class="reports-page-heading">
+                    <span class="reports-eyebrow">BUSINESS ANALYTICS</span>
+
+                    <h2>Sales Reports</h2>
+
+                    <p>
+                        Monitor your store's revenue, orders and sales performance.
+                    </p>
+                </div>
+
+                <!-- DATE FILTER -->
+                <div class="report-filter-wrapper">
+
+                    <div class="report-filter-title">
+                        <div class="filter-icon">📅</div>
+
+                        <div>
+                            <h3>Filter Sales Reports</h3>
+                            <p>Select a date range to view your sales performance</p>
+                        </div>
+                    </div>
+
+                    <form method="GET" action="{{ url_for('main.sales_reports') }}" class="report-filter">
+
+                        <div class="filter-field">
+                            <label for="start_date">FROM DATE</label>
+
+                            <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+                        </div>
+
+                        <div class="filter-field">
+                            <label for="end_date">TO DATE</label>
+
+                            <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+                        </div>
+
+                        <button type="submit" class="filter-btn">
+                            Apply Filter
+                        </button>
+
+                        <a href="{{ url_for('main.sales_reports') }}" class="reset-filter-btn">
+                            Reset
+                        </a>
+
+                    </form>
+
+                    <div class="report-filter-illustration">
+                        <img src="{{ url_for('static', filename='images/sales-report.png') }}" alt="" class="sales-report-image">
+                    </div>
+
+                </div>
+
+                <!-- REPORT CARDS -->
+                <section class="dashboard-cards">
+
+                    <div class="dashboard-card">
+                        <h3>Completed Sales</h3>
+                        <h2>Rs. {{ "%.2f"|format(completed_sales or 0) }}</h2>
+                        <p>Revenue from delivered orders</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Total Orders</h3>
+                        <h2>{{ total_orders }}</h2>
+                        <p>All customer orders</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Delivered Orders</h3>
+                        <h2>{{ delivered_orders }}</h2>
+                        <p>Successfully completed</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Pending Order Value</h3>
+                        <h2>Rs. {{ "%.2f"|format(pending_value or 0) }}</h2>
+                        <p>Orders awaiting completion</p>
+                    </div>
+
+                </section>
+
+                <!-- MONTHLY SALES GRAPH -->
+                <div class="report-chart-card">
+
+                    <div class="report-chart-heading">
+                        <h3>Monthly Sales Overview</h3>
+                        <p>Revenue from delivered orders</p>
+                    </div>
+
+                    <canvas id="salesChart"></canvas>
+
+                </div>
+
+                <!-- BEST SELLING PRODUCTS -->
+                <div class="best-selling-card">
+
+                    <div class="best-selling-heading">
+                        <h3>Best-Selling Products</h3>
+                        <p>Top 5 products by quantity sold</p>
+                    </div>
+
+                    <div class="best-selling-table-wrapper">
+
+                        <table class="best-selling-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity Sold</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for product in best_selling_products %}
+                                <tr>
+                                    <td>{{ product.product_name }}</td>
+                                    <td>{{ product.total_sold }}</td>
+                                    <td>
+                                        Rs. {{ "%.2f"|format(product.revenue or 0) }}
+                                    </td>
+                                </tr>
+
+                                {% else %}
+                                <tr>
+                                    <td colspan="3" class="no-sales-data">
+                                        No completed sales yet.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- CHART SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+
+</body>
+
+</html>

@@ -3191,3 +3191,573 @@ CART - QUANTITY AND REMOVE CONTROLS
     max-width: 650px;
     margin: 8px auto 0;
 }
+
+
+/* ================================
+   SALES REPORTS PAGE
+================================ */
+
+.reports-content {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 25px;
+}
+
+.reports-content>h2 {
+    color: #183d32;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.reports-content .dashboard-subtitle {
+    color: #78857e;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+
+/* Report cards layout */
+
+.reports-content .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 25px;
+}
+
+
+/* Individual report card */
+
+.reports-content .dashboard-card {
+    background: #ffffff;
+    border: 1px solid #e7eee9;
+    border-radius: 14px;
+    padding: 26px;
+    min-height: 145px;
+    box-shadow: 0 4px 15px rgba(24, 61, 50, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reports-content .dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(24, 61, 50, 0.09);
+}
+
+.reports-content .dashboard-card h3 {
+    color: #718078;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.reports-content .dashboard-card h2 {
+    color: #183d32;
+    font-size: 29px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.reports-content .dashboard-card p {
+    color: #929d96;
+    font-size: 13px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .reports-content {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .reports-content .dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .reports-content>h2 {
+        font-size: 24px;
+    }
+    .reports-content .dashboard-card {
+        padding: 22px;
+    }
+}
+
+
+/* ================================
+   SALES GRAPH
+================================ */
+
+.report-chart-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e7eee9;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(24, 61, 50, 0.05);
+}
+
+.report-chart-heading {
+    margin-bottom: 25px;
+}
+
+.report-chart-heading h3 {
+    color: #183d32;
+    font-size: 19px;
+    margin-bottom: 7px;
+}
+
+.report-chart-heading p {
+    color: #929d96;
+    font-size: 13px;
+}
+
+.report-chart-card canvas {
+    width: 100% !important;
+    height: 320px !important;
+}
+
+@media (max-width: 600px) {
+    .report-chart-card {
+        padding: 18px;
+    }
+    .report-chart-card canvas {
+        height: 250px !important;
+    }
+}
+
+
+/* ================================
+   BEST SELLING PRODUCTS
+================================ */
+
+.best-selling-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 28px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e7eee9;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(24, 61, 50, 0.05);
+}
+
+.best-selling-heading {
+    margin-bottom: 22px;
+}
+
+.best-selling-heading h3 {
+    color: #183d32;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.best-selling-heading p {
+    color: #929d96;
+    font-size: 13px;
+}
+
+.best-selling-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.best-selling-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.best-selling-table th {
+    background: #f4f8f5;
+    color: #52675c;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 15px 18px;
+    white-space: nowrap;
+}
+
+.best-selling-table td {
+    color: #45584d;
+    font-size: 14px;
+    padding: 17px 18px;
+    border-bottom: 1px solid #edf1ee;
+}
+
+.best-selling-table tbody tr:hover {
+    background: #f8fbf9;
+}
+
+.best-selling-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.no-sales-data {
+    text-align: center;
+    color: #929d96 !important;
+    padding: 30px !important;
+}
+
+@media (max-width: 600px) {
+    .best-selling-card {
+        padding: 18px;
+    }
+    .best-selling-table th,
+    .best-selling-table td {
+        padding: 13px 12px;
+        font-size: 12px;
+    }
+}
+
+
+/* =====================================
+   SALES REPORTS - PAGE HEADING
+===================================== */
+
+.reports-content {
+    min-width: 0;
+}
+
+.reports-page-heading {
+    text-align: center;
+    padding: 15px 20px 25px;
+    margin-bottom: 20px;
+}
+
+.reports-eyebrow {
+    display: inline-block;
+    color: #2e8064;
+    background: #eaf3ee;
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    margin-bottom: 13px;
+}
+
+.reports-page-heading h2 {
+    color: #183d32;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.reports-page-heading p {
+    color: #718078;
+    font-size: 14px;
+}
+
+
+/* =====================================
+   SALES REPORT FILTER CARD
+===================================== */
+
+.report-filter-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #e5ebe6;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 16px rgba(24, 61, 50, 0.05);
+}
+
+.report-filter-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.filter-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #eaf3ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.report-filter-title h3 {
+    color: #263f33;
+    font-size: 17px;
+    font-weight: 800;
+    margin: 0 0 5px;
+}
+
+.report-filter-title p {
+    color: #849188;
+    font-size: 12px;
+    margin: 0;
+}
+
+
+/* =====================================
+   FILTER FORM
+===================================== */
+
+.report-filter {
+    display: grid !important;
+    grid-template-columns: 140px 140px;
+    grid-template-rows: auto auto;
+    align-items: end;
+    justify-content: start;
+    column-gap: 60px;
+    row-gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 4px 0;
+    padding: 4px 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+
+/* =====================================
+   DATE INPUTS
+===================================== */
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    min-width: 0;
+    gap: 8px;
+    margin: 0;
+}
+
+.filter-field:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.filter-field:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.filter-field label {
+    color: #354b3e;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.filter-field input {
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    margin: 0;
+    border: 1px solid #dce6df;
+    border-radius: 8px;
+    background: #f9fbf9;
+    color: #354b3e;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+}
+
+.filter-field input:focus {
+    border-color: #2e8064;
+    box-shadow: 0 0 0 3px rgba(46, 128, 100, .09);
+}
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.filter-btn,
+.reset-filter-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 78px !important;
+    min-width: 78px;
+    height: 36px;
+    padding: 6px 10px;
+    margin: 0 !important;
+    box-sizing: border-box;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: .2s ease;
+}
+
+.filter-btn {
+    grid-column: 1;
+    grid-row: 2;
+    background: #2e8064;
+    color: white;
+    border: 1px solid #2e8064;
+}
+
+.filter-btn:hover {
+    background: #23664f;
+}
+
+.reset-filter-btn {
+    grid-column: 2;
+    grid-row: 2;
+    background: #eaf3ee;
+    color: #183d32;
+    border: 1px solid #dce6df;
+}
+
+.reset-filter-btn:hover {
+    background: #2e8064;
+    color: #fff;
+    border-color: #2e8064;
+}
+
+.reset-filter-btn:link,
+.reset-filter-btn:visited,
+.reset-filter-btn:hover,
+.reset-filter-btn:active,
+.reset-filter-btn:focus {
+    text-decoration: none !important;
+}
+
+
+/* =====================================
+   TABLET RESPONSIVE
+===================================== */
+
+@media (max-width: 768px) {
+    .report-filter-wrapper {
+        padding: 22px 20px;
+    }
+    .report-filter {
+        column-gap: 35px;
+        row-gap: 14px;
+    }
+}
+
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+@media (max-width: 480px) {
+    .report-filter-wrapper {
+        padding: 18px 15px;
+    }
+    .report-filter {
+        grid-template-columns: minmax(0, 140px) minmax(0, 140px);
+        column-gap: 20px;
+        row-gap: 14px;
+    }
+    .filter-field {
+        width: 100%;
+    }
+    .filter-field input {
+        width: 100%;
+    }
+}
+
+
+/* =====================================
+   SALES REPORT IMAGE
+===================================== */
+
+.report-filter-wrapper {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* DESKTOP / LAPTOP */
+
+.report-filter-illustration {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 400px;
+    max-width: 45%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.sales-report-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+/* KEEP CONTENT ABOVE IMAGE */
+
+.report-filter-title,
+.report-filter {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =====================================
+   TABLET AND MOBILE IMAGE
+===================================== */
+
+@media (max-width: 768px) {
+    .report-filter-illustration {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        max-width: none;
+        height: auto;
+        transform: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.15;
+    }
+    .sales-report-image {
+        width: 85%;
+        height: 85%;
+        object-fit: contain;
+        object-position: center;
+    }
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media (max-width: 340px) {
+    .sales-report-image {
+        width: 90%;
+        height: 80%;
+        object-fit: contain;
+        object-position: center;
+    }
+    .report-filter-illustration {
+        opacity: 0.12;
+    }
+}
