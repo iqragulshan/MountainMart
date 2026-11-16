@@ -22,6 +22,9 @@ def create_app():
     from app.routes.orders import orders
     app.register_blueprint(orders)
 
+    from app.routes.customers import customers
+    app.register_blueprint(customers)
+
     from app.routes.customer import customer
     app.register_blueprint(customer)
 

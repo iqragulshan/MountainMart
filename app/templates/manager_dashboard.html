@@ -29,7 +29,6 @@
 
         <div class="dashboard-layout">
 
-
             <aside class="dashboard-sidebar">
 
                 <h3>MANAGEMENT</h3>
@@ -50,10 +49,9 @@
                     <span>🛍</span> Orders
                 </a>
 
-                <div class="sidebar-link coming-soon">
+                <a href="{{ url_for('customers.customer_list') }}" class="sidebar-link">
                     <span>👥</span> Customers
-                    <small>Coming Soon</small>
-                </div>
+                </a>
 
                 <a href="{{ url_for('suppliers.view_suppliers') }}" class="sidebar-link">
                     <span>🚚</span> Suppliers
@@ -69,7 +67,6 @@
                 </div>
 
             </aside>
-
 
             <main class="dashboard-container">
 
@@ -122,10 +119,6 @@
             </main>
 
         </div>
-
-
-
-
 
     </main>
 

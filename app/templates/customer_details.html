@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Details | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body class="dashboard-page customers-page">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Customer Details</p>
+        </div>
+
+        <a href="{{ url_for('customers.customer_list') }}" class="logout-btn">
+            Back to Customers
+        </a>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Customer Information</h2>
+
+        {% set total_spent = namespace(amount=0) %} {% for order in orders %} {% set total_spent.amount = total_spent.amount + (order.total_amount or 0) %} {% endfor %}
+
+        <section class="customer-profile-card">
+
+            <div class="customer-profile-header">
+
+                <div class="customer-avatar">
+                    <span>{{ (customer.name or 'C')[0]|upper }}</span>
+                </div>
+
+                <div class="customer-profile-heading">
+                    <h3>{{ customer.name or 'N/A' }}</h3>
+
+                    {% if is_guest|default(false) %}
+                    <span class="customer-type-badge guest-badge">
+                            Guest Customer
+                        </span> {% else %}
+                    <span class="customer-type-badge registered-badge">
+                            Registered Customer
+                        </span> {% endif %}
+                </div>
+
+            </div>
+
+            <div class="customer-profile-divider"></div>
+
+            <div class="customer-profile-details">
+
+                {% if not is_guest|default(false) %}
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                            <i class="detail-symbol">#</i>
+                        </span>
+                    <div>
+                        <small>Customer ID</small>
+                        <p>{{ customer.id }}</p>
+                    </div>
+                </div>
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                            <i class="detail-symbol">✉</i>
+                        </span>
+                    <div>
+                        <small>Email Address</small>
+                        <p>{{ customer.email or '-' }}</p>
+                    </div>
+                </div>
+
+                {% endif %}
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                        <i class="detail-symbol">☎</i>
+                    </span>
+                    <div>
+                        <small>Phone Number</small>
+                        <p>{{ customer.phone or '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                        <i class="detail-symbol">▣</i>
+                    </span>
+                    <div>
+                        <small>Registered / First Order</small>
+                        <p>{{ customer.created_at or '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                        <i class="detail-symbol">▤</i>
+                    </span>
+                    <div>
+                        <small>Total Orders</small>
+                        <p>{{ orders|length }}</p>
+                    </div>
+                </div>
+
+                <div class="customer-detail-item">
+                    <span class="detail-icon">
+                        <i class="detail-symbol">₨</i>
+                    </span>
+                    <div>
+                        <small>Total Spent</small>
+                        <p>Rs. {{ "%.2f"|format(total_spent.amount) }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <h2>Order History</h2>
+
+        <div class="table-container">
+
+            <table class="inventory-table">
+
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                        <th>Order Status</th>
+                        <th>Payment Method</th>
+                        <th>Payment Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for order in orders %}
+
+                    <tr>
+
+                        <td>#{{ order.id }}</td>
+
+                        <td>{{ order.created_at }}</td>
+
+                        <td>
+                            Rs. {{ "%.2f"|format(order.total_amount or 0) }}
+                        </td>
+
+                        <td>{{ order.status }}</td>
+
+                        <td>{{ order.payment_method or '-' }}</td>
+
+                        <td>{{ order.payment_status or 'Pending' }}</td>
+
+                        <td>
+                            <a href="{{ url_for('orders.order_details', order_id=order.id) }}" class="edit-btn">
+                                View Order
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="7">No previous orders found.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
