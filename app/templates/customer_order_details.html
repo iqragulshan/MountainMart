@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details | Mountain Mart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page customer-order-details-page">
+
+    <!-- HEADER -->
+    <header class="customer-header">
+
+        <div class="customer-brand">
+            <a href="{{ url_for('customer.customer_home') }}">
+                Mountain Mart
+            </a>
+        </div>
+
+        <div class="customer-actions">
+            <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
+                My Orders
+            </a>
+
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+                🛒 Cart
+            </a>
+
+            <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
+                Logout
+            </a>
+        </div>
+
+    </header>
+
+    <main class="customer-order-details-container">
+
+        <a href="{{ url_for('orders.customer_order_history') }}" class="customer-order-back">
+            ← Back to My Orders
+        </a>
+
+        <div class="customer-details-heading">
+            <p>ORDER INFORMATION</p>
+            <h1>Order #{{ order.id }}</h1>
+            <span>Placed on {{ order.created_at }}</span>
+        </div>
+
+        <!-- ORDER STATUS -->
+        <section class="customer-details-card">
+
+            <div class="customer-details-title">
+                <h2>Order Status</h2>
+
+                <span class="customer-order-status {{ order.status|lower }}">
+                    {{ order.status }}
+                </span>
+            </div>
+
+            <div class="customer-details-grid">
+
+                <div>
+                    <span>Payment Method</span>
+                    <strong>{{ order.payment_method }}</strong>
+                </div>
+
+                <div>
+                    <span>Payment Status</span>
+                    <strong>{{ order.payment_status }}</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ORDERED PRODUCTS -->
+        <section class="customer-details-card">
+
+            <h2>Ordered Products</h2>
+
+            <div class="customer-details-table-wrapper">
+
+                <table class="customer-details-table">
+
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in order_items %}
+
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>Rs. {{ "%.2f"|format(item.price) }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs. {{ "%.2f"|format(item.price * item.quantity) }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="customer-details-total">
+                <span>Total Amount</span>
+                <strong>Rs. {{ "%.2f"|format(order.total_amount) }}</strong>
+            </div>
+
+        </section>
+
+        <!-- DELIVERY INFORMATION -->
+        <section class="customer-details-card">
+
+            <h2>Delivery Information</h2>
+
+            <div class="customer-delivery-info">
+
+                <div>
+                    <span>Customer Name</span>
+                    <strong>{{ order.customer_name }}</strong>
+                </div>
+
+                <div>
+                    <span>Phone Number</span>
+                    <strong>{{ order.phone }}</strong>
+                </div>
+
+                <div>
+                    <span>Delivery Address</span>
+                    <strong>{{ order.delivery_address }}</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
