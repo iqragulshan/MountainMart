@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Mountain Mart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page customer-orders-page">
+
+    <!-- HEADER -->
+    <header class="customer-header">
+
+        <div class="customer-brand">
+            <a href="{{ url_for('customer.customer_home') }}">
+                Mountain Mart
+            </a>
+        </div>
+
+        <div class="customer-actions">
+            <a href="{{ url_for('customer.customer_home') }}" class="customer-login">
+                Shop
+            </a>
+
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+                🛒 Cart
+            </a>
+
+            <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
+                Logout
+            </a>
+        </div>
+
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="customer-orders-container">
+
+        <div class="customer-orders-heading">
+            <p>YOUR ACCOUNT</p>
+            <h1>My Orders</h1>
+            <span>View and track your recent purchases.</span>
+        </div>
+
+        {% if orders %}
+
+        <div class="customer-orders-list">
+
+            {% for order in orders %}
+
+            <div class="customer-order-card">
+
+                <div class="customer-order-top">
+
+                    <div>
+                        <span class="customer-order-label">ORDER</span>
+                        <h3>#{{ order.id }}</h3>
+                    </div>
+
+                    <span class="customer-order-status {{ order.status|lower }}">
+                        {{ order.status }}
+                    </span>
+
+                </div>
+
+                <div class="customer-order-info">
+
+                    <div>
+                        <span>Order Date</span>
+                        <strong>{{ order.created_at }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Amount</span>
+                        <strong>Rs. {{ "%.2f"|format(order.total_amount) }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Payment Method</span>
+                        <strong>{{ order.payment_method }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Payment Status</span>
+                        <strong>{{ order.payment_status }}</strong>
+                    </div>
+
+                </div>
+
+                <div class="customer-order-footer">
+
+                    <a href="{{ url_for('orders.customer_order_details', order_id=order.id) }}" class="customer-order-view">
+                        View Details →
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="customer-orders-empty">
+            <div class="empty-order-icon">📦</div>
+            <h2>No orders yet</h2>
+            <p>You haven't placed any orders yet. Start shopping to see your orders here.</p>
+
+            <a href="{{ url_for('customer.customer_home') }}" class="customer-order-shop">
+                Start Shopping
+            </a>
+        </div>
+
+        {% endif %}
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

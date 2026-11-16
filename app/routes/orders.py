@@ -221,3 +221,67 @@ def order_success(order_id):
         order=order,
         order_items=order_items
     )
+
+# CUSTOMER ORDER HISTORY
+@orders.route("/customer/orders")
+def customer_order_history():
+
+    if "user_id" not in session or session.get("user_role") != "customer":
+        return redirect(url_for("auth.customer_login"))
+
+    db = get_db()
+
+    customer_orders = db.execute(
+        """
+        SELECT *
+        FROM orders
+        WHERE customer_id = ?
+        ORDER BY created_at DESC, id DESC
+        """,
+        (session["user_id"],)
+    ).fetchall()
+
+    return render_template(
+        "customer_orders.html",
+        orders=customer_orders
+    )
+
+
+# CUSTOMER ORDER DETAILS
+@orders.route("/customer/orders/<int:order_id>")
+def customer_order_details(order_id):
+
+    if "user_id" not in session or session.get("user_role") != "customer":
+        return redirect(url_for("auth.customer_login"))
+
+    db = get_db()
+
+    order = db.execute(
+        """
+        SELECT *
+        FROM orders
+        WHERE id = ? AND customer_id = ?
+        """,
+        (order_id, session["user_id"])
+    ).fetchone()
+
+    if order is None:
+        return "Order not found.", 404
+
+    order_items = db.execute(
+        """
+        SELECT
+            order_items.*,
+            products.name AS product_name
+        FROM order_items
+        JOIN products ON order_items.product_id = products.id
+        WHERE order_items.order_id = ?
+        """,
+        (order_id,)
+    ).fetchall()
+
+    return render_template(
+        "customer_order_details.html",
+        order=order,
+        order_items=order_items
+    )
