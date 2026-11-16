@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Order Details | Mountain Mart</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -20,6 +22,7 @@
         </div>
 
         <div class="customer-actions">
+
             <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
                 My Orders
             </a>
@@ -31,31 +34,43 @@
             <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
                 Logout
             </a>
+
         </div>
 
     </header>
 
+
     <main class="customer-order-details-container">
 
+        <!-- BACK BUTTON -->
         <a href="{{ url_for('orders.customer_order_history') }}" class="customer-order-back">
             ← Back to My Orders
         </a>
 
+
+        <!-- ORDER HEADING -->
         <div class="customer-details-heading">
+
             <p>ORDER INFORMATION</p>
+
             <h1>Order #{{ order.id }}</h1>
+
             <span>Placed on {{ order.created_at }}</span>
+
         </div>
+
 
         <!-- ORDER STATUS -->
         <section class="customer-details-card">
 
             <div class="customer-details-title">
+
                 <h2>Order Status</h2>
 
                 <span class="customer-order-status {{ order.status|lower }}">
                     {{ order.status }}
                 </span>
+
             </div>
 
             <div class="customer-details-grid">
@@ -73,6 +88,7 @@
             </div>
 
         </section>
+
 
         <!-- ORDERED PRODUCTS -->
         <section class="customer-details-card">
@@ -97,10 +113,19 @@
                         {% for item in order_items %}
 
                         <tr>
+
                             <td>{{ item.product_name }}</td>
-                            <td>Rs. {{ "%.2f"|format(item.price) }}</td>
+
+                            <td>
+                                Rs. {{ "%.2f"|format(item.price) }}
+                            </td>
+
                             <td>{{ item.quantity }}</td>
-                            <td>Rs. {{ "%.2f"|format(item.price * item.quantity) }}</td>
+
+                            <td>
+                                Rs. {{ "%.2f"|format(item.price * item.quantity) }}
+                            </td>
+
                         </tr>
 
                         {% endfor %}
@@ -112,11 +137,17 @@
             </div>
 
             <div class="customer-details-total">
+
                 <span>Total Amount</span>
-                <strong>Rs. {{ "%.2f"|format(order.total_amount) }}</strong>
+
+                <strong>
+                    Rs. {{ "%.2f"|format(order.total_amount) }}
+                </strong>
+
             </div>
 
         </section>
+
 
         <!-- DELIVERY INFORMATION -->
         <section class="customer-details-card">
@@ -144,11 +175,142 @@
 
         </section>
 
+
+        <!-- CUSTOMER REVIEW -->
+        <section class="customer-details-card customer-review-card">
+
+            <h2>Review & Rating</h2>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+
+            {% endfor %} {% endif %} {% endwith %}
+
+
+            <!-- EXISTING REVIEW -->
+            {% if review %}
+
+            <div class="customer-review-submitted">
+
+                <h3>Your Review</h3>
+
+                <!-- FULL / HALF / EMPTY STARS -->
+                <div class="customer-review-stars">
+
+                    {% for star in range(1, 6) %} {% if review.rating >= star %}
+
+                    <span class="review-star full">★</span> {% elif review.rating >= star - 0.5 %}
+
+                    <span class="review-star half">★</span> {% else %}
+
+                    <span class="review-star empty">★</span> {% endif %} {% endfor %}
+
+                </div>
+
+                <p>
+                    {{ review.comment or "No written feedback provided." }}
+                </p>
+
+                <small>
+                    Submitted on: {{ review.created_at }}
+                </small>
+
+            </div>
+
+
+            <!-- REVIEW FORM -->
+            {% elif order.status == 'Delivered' %}
+
+            <p>
+                How was your shopping experience? Share your feedback below.
+            </p>
+
+            <form method="POST" action="{{ url_for('orders.submit_review', order_id=order.id) }}" class="customer-review-form" id="customerReviewForm">
+
+                <!-- STAR RATING -->
+                <label>
+                    Your Rating
+                </label>
+
+                <div class="customer-rating-picker">
+
+                    <input type="hidden" name="rating" id="reviewRating" required>
+
+                    <div class="customer-rating-stars" id="customerRatingStars" role="group" aria-label="Choose a rating from one half to five stars">
+
+                        <button type="button" class="rating-star" data-star="1" aria-label="1 star">
+                            ☆
+                        </button>
+
+                        <button type="button" class="rating-star" data-star="2" aria-label="2 stars">
+                            ☆
+                        </button>
+
+                        <button type="button" class="rating-star" data-star="3" aria-label="3 stars">
+                            ☆
+                        </button>
+
+                        <button type="button" class="rating-star" data-star="4" aria-label="4 stars">
+                            ☆
+                        </button>
+
+                        <button type="button" class="rating-star" data-star="5" aria-label="5 stars">
+                            ☆
+                        </button>
+
+                    </div>
+
+                    <p id="customerRatingLabel" class="customer-rating-label" aria-live="polite">
+                        Select your rating
+                    </p>
+
+                </div>
+
+
+                <!-- CUSTOMER FEEDBACK -->
+                <label for="comment">
+                    Your Feedback
+                </label>
+
+                <textarea name="comment" id="comment" rows="4" maxlength="1000" placeholder="Write your experience (optional)..."></textarea>
+
+
+                <!-- SUBMIT -->
+                <button type="submit">
+                    Submit Review
+                </button>
+
+            </form>
+
+
+            {% else %}
+
+            <p>
+                You can share your review once your order has been delivered.
+            </p>
+
+            {% endif %}
+
+        </section>
+
     </main>
 
+
+    <!-- FOOTER -->
     <footer class="customer-footer">
+
         <p>© 2026 Mountain Mart. All rights reserved.</p>
+
     </footer>
+
+
+    <!-- REVIEW RATING JAVASCRIPT -->
+    <script src="{{ url_for('static', filename='js/reviews.js') }}"></script>
 
 </body>
 
