@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Supplier | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body class="dashboard-page supplier-page">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Supplier Management</p>
+        </div>
+
+        <a href="{{ url_for('suppliers.view_suppliers') }}" class="logout-btn">
+            Back to Suppliers
+        </a>
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Add New Supplier</h2>
+
+        <p class="dashboard-subtitle">
+            Enter the supplier details below.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endwith %}
+
+        <form method="POST" action="{{ url_for('suppliers.add_supplier') }}" class="supplier-form">
+
+            <div>
+                <label for="supplier_name">Supplier Name *</label>
+                <input type="text" id="supplier_name" name="supplier_name" maxlength="100" placeholder="Enter supplier name" required>
+            </div>
+
+            <div>
+                <label for="contact_person">Contact Person</label>
+                <input type="text" id="contact_person" name="contact_person" placeholder="Enter contact person's name">
+            </div>
+
+            <div>
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" maxlength="20" placeholder="Enter phone number" required>
+            </div>
+
+            <div>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email address">
+            </div>
+
+            <div>
+                <label for="address">Address</label>
+                <textarea id="address" name="address" placeholder="Enter supplier address..."></textarea>
+            </div>
+
+            <button type="submit">
+                Save Supplier
+            </button>
+
+        </form>
+
+    </main>
+
+</body>
+
+</html>

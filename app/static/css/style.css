@@ -4241,3 +4241,149 @@ CART - QUANTITY AND REMOVE CONTROLS
         font-size: 15px;
     }
 }
+
+
+/* =================================
+   SUPPLIER MANAGEMENT
+================================= */
+
+.supplier-page .supplier-add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #183d32;
+    color: #fff;
+    padding: 11px 22px;
+    margin: 12px 0 22px;
+    border: 1px solid #183d32;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.supplier-page .supplier-add-btn:hover {
+    background: #315c49;
+    border-color: #315c49;
+    transform: translateY(-2px);
+}
+
+
+/* Supplier forms */
+
+.supplier-page .supplier-form {
+    width: 100%;
+    max-width: 650px;
+    box-sizing: border-box;
+    margin: 22px 0;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #e8ebe5;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 18px rgba(24, 61, 50, 0.04);
+}
+
+.supplier-page .supplier-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #263b32;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.supplier-page .supplier-form input,
+.supplier-page .supplier-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    margin-top: 5px;
+    background: #fbfcfa;
+    border: 1px solid #d9dfd9;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.supplier-page .supplier-form input:focus,
+.supplier-page .supplier-form textarea:focus {
+    outline: none;
+    border-color: #315c49;
+    box-shadow: 0 0 0 3px rgba(49, 92, 73, 0.12);
+}
+
+.supplier-page .supplier-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.supplier-page .supplier-form button {
+    align-self: flex-start;
+    min-width: 150px;
+    margin-top: 8px;
+    padding: 12px 22px;
+    background: #183d32;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.supplier-page .supplier-form button:hover {
+    background: #315c49;
+    transform: translateY(-2px);
+}
+
+
+/* Supplier action buttons */
+
+.supplier-page .product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.supplier-page .inventory-table th:last-child,
+.supplier-page .inventory-table td:last-child {
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+/* Supplier alerts */
+
+.supplier-page .flash-message {
+    animation: supplierAlertFade 0.5s ease 1s forwards;
+}
+
+@keyframes supplierAlertFade {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* Mobile responsive */
+
+@media (max-width: 650px) {
+    .supplier-page .supplier-form {
+        padding: 18px;
+    }
+    .supplier-page .supplier-form button {
+        width: 100%;
+    }
+    .supplier-page .product-actions {
+        gap: 6px;
+    }
+}

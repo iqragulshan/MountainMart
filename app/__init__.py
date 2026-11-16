@@ -1,5 +1,4 @@
 from flask import Flask
-from app.routes import customer, orders
 from config import Config
 from app.database import close_db
 
@@ -17,6 +16,9 @@ def create_app():
     from app.routes.products import products
     app.register_blueprint(products)
 
+    from app.routes.suppliers import suppliers
+    app.register_blueprint(suppliers)
+
     from app.routes.orders import orders
     app.register_blueprint(orders)
 
@@ -26,4 +28,3 @@ def create_app():
     app.teardown_appcontext(close_db)
 
     return app
-
