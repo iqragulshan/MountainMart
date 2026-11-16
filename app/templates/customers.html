@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Management | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body class="dashboard-page customers-page">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>Mountain Mart</h1>
+            <p>Customer Management</p>
+        </div>
+
+        <a href="{{ url_for('main.manager_dashboard') }}" class="logout-btn">
+            Dashboard
+        </a>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <h2>Customer Management</h2>
+
+        <p class="dashboard-subtitle">
+            View registered customers and customers who placed guest orders.
+        </p>
+
+        <section class="customers-content">
+
+            <form method="GET" action="{{ url_for('customers.customer_list') }}" class="customer-search-form">
+
+                <input type="search" name="search" placeholder="Search by name, email or phone..." value="{{ search }}">
+
+                <button type="submit">Search</button>
+
+            </form>
+
+            <div class="table-container">
+
+                <table class="inventory-table">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Customer Type</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Total Orders</th>
+                            <th>Total Spent</th>
+                            <th>Joined / First Order</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for customer in customers %}
+
+                        <tr>
+
+                            <td>{{ customer.name or 'N/A' }}</td>
+
+                            <td>{{ customer.customer_type }}</td>
+
+                            <td>{{ customer.email or '-' }}</td>
+
+                            <td>{{ customer.phone or '-' }}</td>
+
+                            <td>{{ customer.total_orders }}</td>
+
+                            <td>
+                                Rs. {{ "%.2f"|format(customer.total_spent or 0) }}
+                            </td>
+
+                            <td>{{ customer.created_at or '-' }}</td>
+
+                            <td>
+
+                                {% if customer.customer_type == 'Guest' %}
+
+                                <a href="{{ url_for('customers.guest_customer_details', phone=customer.phone) }}" class="edit-btn">
+                                        View Details
+                                    </a> {% else %}
+
+                                <a href="{{ url_for('customers.customer_details', customer_id=customer.id) }}" class="edit-btn">
+                                        View Details
+                                    </a> {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="8">No customers found.</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
