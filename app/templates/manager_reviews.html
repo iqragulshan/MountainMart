@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Reviews | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="manager-reviews-page">
+
+        <header class="manager-reviews-header">
+            <div>
+                <h1>Customer Reviews</h1>
+                <p>View and manage customer feedback</p>
+            </div>
+
+            <a href="{{ url_for('main.manager_dashboard') }}" class="reviews-dashboard-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <main class="manager-reviews-content">
+
+            <!-- REVIEW STATISTICS -->
+            <section class="manager-review-stats">
+
+                <div class="manager-review-stat-card">
+                    <span class="review-stat-label">Total Reviews</span>
+                    <h2>{{ review_stats.total_reviews }}</h2>
+                    <p>Customer feedback received</p>
+                </div>
+
+                <div class="manager-review-stat-card">
+                    <span class="review-stat-label">Average Rating</span>
+
+                    <h2>
+                        {{ "%.1f"|format(review_stats.average_rating) }}
+                        <span>/ 5</span>
+                    </h2>
+
+                    <p class="manager-average-stars">★★★★★</p>
+                </div>
+
+            </section>
+
+            <!-- REVIEWS LIST -->
+            <section class="manager-reviews-section">
+
+                <div class="manager-reviews-title">
+                    <div>
+                        <h2>All Customer Reviews</h2>
+                        <p>Feedback submitted by your customers</p>
+                    </div>
+
+                    <span class="manager-review-count">
+                        {{ review_stats.total_reviews }} Reviews
+                    </span>
+                </div>
+
+                {% if reviews %}
+
+                <div class="manager-review-list">
+
+                    {% for review in reviews %}
+
+                    <article class="manager-review-card">
+
+                        <div class="manager-review-top">
+
+                            <div class="manager-review-customer">
+
+                                <div class="manager-review-avatar">
+                                    {{ review.customer_name[0]|upper }}
+                                </div>
+
+                                <div>
+                                    <h3>{{ review.customer_name }}</h3>
+
+                                    <span class="manager-review-date">
+                                                {{ review.created_at }}
+                                            </span>
+                                </div>
+
+                            </div>
+
+                            <div class="manager-review-rating">
+
+                                {% for star in range(1, 6) %} {% if review.rating >= star %}
+                                <span class="filled-star">★</span> {% elif review.rating >= star - 0.5 %}
+                                <span class="half-star">★</span> {% else %}
+                                <span class="empty-star">★</span> {% endif %} {% endfor %}
+
+                                <span class="manager-rating-number">
+                                            {{ "%.1f"|format(review.rating) }}
+                                        </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="manager-review-comment">
+
+                            {% if review.comment %} {{ review.comment }} {% else %}
+                            <span>No written feedback provided.</span> {% endif %}
+
+                        </div>
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="manager-no-reviews">
+
+                    <div>☆</div>
+
+                    <h3>No Reviews Yet</h3>
+
+                    <p>
+                        Customer reviews will appear here when customers submit their feedback.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

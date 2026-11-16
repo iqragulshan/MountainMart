@@ -1,10 +1,20 @@
 
-from flask import Blueprint, redirect, url_for, session, render_template, request
+from flask import (
+    Blueprint,
+    redirect,
+    url_for,
+    session,
+    render_template,
+    request
+)
+
 from app.database import get_db
+
 
 main = Blueprint("main", __name__)
 
 
+# HOME PAGE
 @main.route("/")
 def home():
     return "Welcome to Mountain Mart!"
@@ -58,6 +68,55 @@ def manager_dashboard():
         out_of_stock=out_of_stock,
         total_inventory=total_inventory,
         new_orders=new_orders
+    )
+
+
+# MANAGER CUSTOMER REVIEWS
+@main.route("/manager/reviews")
+def manager_reviews():
+
+    if "user_id" not in session:
+        return redirect(url_for("auth.manager_login"))
+
+    if session.get("user_role") != "manager":
+        return "Access denied!", 403
+
+    db = get_db()
+
+    reviews = db.execute(
+        """
+        SELECT
+            reviews.id,
+            reviews.rating,
+            reviews.comment,
+            reviews.created_at,
+            COALESCE(
+                NULLIF(orders.customer_name, ''),
+                users.name,
+                'Guest'
+            ) AS customer_name
+        FROM reviews
+        LEFT JOIN orders
+            ON reviews.order_id = orders.id
+        LEFT JOIN users
+            ON reviews.customer_id = users.id
+        ORDER BY reviews.created_at DESC
+        """
+    ).fetchall()
+
+    review_stats = db.execute(
+        """
+        SELECT
+            COUNT(*) AS total_reviews,
+            COALESCE(AVG(rating), 0) AS average_rating
+        FROM reviews
+        """
+    ).fetchone()
+
+    return render_template(
+        "manager_reviews.html",
+        reviews=reviews,
+        review_stats=review_stats
     )
 
 
