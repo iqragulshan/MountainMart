@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} Reviews | Mountain Mart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="customer-page">
+
+    <!-- HEADER -->
+    <header class="customer-header">
+
+        <div class="customer-brand">
+            <a href="{{ url_for('customer.customer_home') }}">
+                Mountain Mart
+            </a>
+        </div>
+
+        <div class="customer-actions">
+            <a href="{{ url_for('customer.customer_home') }}#products" class="customer-login">
+                Continue Shopping
+            </a>
+
+            <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
+                🛒 Cart
+            </a>
+        </div>
+
+    </header>
+
+    <!-- REVIEWS SECTION -->
+    <main class="public-reviews-page">
+
+        <div class="public-reviews-container">
+
+            <a href="{{ url_for('customer.customer_home') }}#products" class="reviews-back-link">
+                ← Back to Products
+            </a>
+
+            <!-- PRODUCT INFORMATION -->
+            <section class="public-product-summary">
+
+                <p class="reviews-eyebrow">CUSTOMER FEEDBACK</p>
+
+                <h1>{{ product.name }}</h1>
+
+                <p class="reviews-product-category">
+                    {{ product.category|title }}
+                </p>
+
+                <div class="public-rating-summary">
+
+                    <div class="public-average-rating">
+                        {{ "%.1f"|format(rating_summary.average_rating) }}
+                        <span>/ 5</span>
+                    </div>
+
+                    <div class="public-rating-stars">
+                        {% for star in range(1, 6) %} {% if rating_summary.average_rating >= star %}
+                        <span class="full">★</span> {% elif rating_summary.average_rating >= star - 0.5 %}
+                        <span class="half">★</span> {% else %}
+                        <span class="empty">★</span> {% endif %} {% endfor %}
+                    </div>
+
+                    <p>
+                        Based on {{ rating_summary.review_count }} {% if rating_summary.review_count == 1 %} review {% else %} reviews {% endif %}
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- CUSTOMER REVIEWS -->
+            <section class="public-customer-reviews">
+
+                <div class="public-reviews-heading">
+                    <h2>Customer Reviews</h2>
+                    <p>See what our customers say about this product.</p>
+                </div>
+
+                {% if reviews %}
+
+                <div class="public-review-list">
+
+                    {% for review in reviews %}
+
+                    <article class="public-review-card">
+
+                        <div class="public-review-header">
+
+                            <div class="public-review-customer">
+
+                                <div class="review-customer-avatar">
+                                    {{ review.customer_name[0]|upper }}
+                                </div>
+
+                                <div>
+                                    <h3>{{ review.customer_name }}</h3>
+
+                                    <span class="public-review-date">
+                                                {{ review.created_at }}
+                                            </span>
+                                </div>
+
+                            </div>
+
+                            <div class="public-review-stars">
+
+                                {% for star in range(1, 6) %} {% if review.rating >= star %}
+                                <span class="full">★</span> {% elif review.rating >= star - 0.5 %}
+                                <span class="half">★</span> {% else %}
+                                <span class="empty">★</span> {% endif %} {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                        {% if review.comment %}
+                        <p class="public-review-comment">
+                            {{ review.comment }}
+                        </p>
+                        {% else %}
+                        <p class="public-review-comment no-comment">
+                            No written feedback provided.
+                        </p>
+                        {% endif %}
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="public-no-reviews">
+
+                    <div class="no-reviews-icon">☆</div>
+
+                    <h3>No Reviews Yet</h3>
+
+                    <p>
+                        This product hasn't received any customer reviews yet. Be the first to share your experience after purchasing.
+                    </p>
+
+                    <a href="{{ url_for('customer.customer_home') }}#products" class="reviews-shop-button">
+                            Explore Products
+                        </a>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="customer-footer">
+        <p>© 2026 Mountain Mart. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

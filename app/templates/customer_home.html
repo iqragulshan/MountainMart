@@ -12,14 +12,13 @@
 
 <body class="customer-page">
 
-
     <!-- HEADER -->
     <header class="customer-header">
 
         <div class="customer-brand">
             <a href="{{ url_for('customer.customer_home') }}">
-            Mountain Mart
-        </a>
+                Mountain Mart
+            </a>
         </div>
 
         <div class="customer-actions">
@@ -30,20 +29,20 @@
             </span> {% endif %}
 
             <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
-            🛒 Cart
-            {% if cart_count > 0 %}
-                <span class="cart-count-badge">{{ cart_count }}</span>
-            {% endif %}
-        </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+                🛒 Cart
+                {% if cart_count > 0 %}
+                    <span class="cart-count-badge">{{ cart_count }}</span>
+                {% endif %}
+            </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
             <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
-                My Orders
-            </a>
+                    My Orders
+                </a>
             <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
-                Logout
-            </a> {% else %}
+                    Logout
+                </a> {% else %}
             <a href="{{ url_for('auth.customer_login') }}" class="customer-login">
-                Login
-            </a> {% endif %}
+                    Login
+                </a> {% endif %}
 
         </div>
 
@@ -71,16 +70,13 @@
         </div>
     </section>
 
-
     <!-- PRODUCTS SECTION -->
-    <section class="customer-products" id="products" method="POST">
-
+    <section class="customer-products" id="products">
 
         <div class="section-heading">
             <p>OUR COLLECTION</p>
             <h2>Shop Your Essentials</h2>
         </div>
-
 
         <!-- FLASH MESSAGES -->
         {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
@@ -91,11 +87,12 @@
 
         <!-- SEARCH -->
         <form action="{{ url_for('customer.customer_home') }}" method="GET" class="customer-search">
+
             <input type="text" name="search" placeholder="Search products..." value="{{ search }}">
 
             <button type="submit">Search</button>
-        </form>
 
+        </form>
 
         <!-- CATEGORIES -->
         <div class="customer-categories">
@@ -116,7 +113,6 @@
             </div>
         </div>
 
-
         <!-- PRODUCT GRID -->
         <div class="customer-product-grid">
 
@@ -132,7 +128,6 @@
 
                 </div>
 
-
                 <div class="product-card-info">
 
                     <h3>{{ product.name }}</h3>
@@ -143,30 +138,63 @@
                         Rs. {{ "%.2f"|format(product.price) }}
                     </h4>
 
+                    <!-- PRODUCT RATINGS -->
+                    <div class="product-rating-summary">
+
+                        {% if product.review_count > 0 %}
+
+                        <div class="product-rating-stars">
+                            {% for star in range(1, 6) %} {% if product.average_rating >= star %}
+                            <span class="full">★</span> {% elif product.average_rating >= star - 0.5 %}
+                            <span class="half">★</span> {% else %}
+                            <span class="empty">★</span> {% endif %} {% endfor %}
+                        </div>
+
+                        <span class="product-rating-value">
+                                {{ "%.1f"|format(product.average_rating) }} / 5
+                            </span>
+
+                        <a href="{{ url_for('customer.product_reviews', product_id=product.id) }}" class="view-product-reviews">
+                                {{ product.review_count }}
+                                {% if product.review_count == 1 %}
+                                    Review
+                                {% else %}
+                                    Reviews
+                                {% endif %}
+                            </a> {% else %}
+
+                        <span class="no-product-reviews">
+                                No reviews yet
+                            </span> {% endif %}
+
+                    </div>
+
                     {% if product.quantity > 0 %}
 
                     <span>
-                                Available: {{ product.quantity }}
-                            </span>
+                            Available: {{ product.quantity }}
+                        </span>
+
                     <form method="POST" action="{{ url_for('customer.add_to_cart', product_id=product.id) }}">
 
                         <input type="hidden" name="category" value="{{ selected_category }}">
                         <input type="hidden" name="search" value="{{ search }}">
 
                         <button type="submit" class="add-to-cart-button">
-                         Add to Cart +
-                        </button>
+                                Add to Cart +
+                            </button>
 
                     </form>
+
                     {% else %}
 
                     <span class="out-of-stock">
-                                Out of Stock
-                            </span>
+                            Out of Stock
+                        </span>
 
                     <button type="button" class="add-to-cart-button" disabled>
-                                Unavailable
-                            </button> {% endif %}
+                            Unavailable
+                        </button> {% endif %}
 
                 </div>
             </div>
@@ -181,7 +209,6 @@
 
     </section>
 
-
     <!-- ABOUT SECTION -->
     <section class="customer-about" id="about">
 
@@ -192,7 +219,6 @@
         </p>
 
     </section>
-
 
     <!-- FOOTER -->
     <footer class="customer-footer">

@@ -5,7 +5,6 @@ from flask import (
 )
 
 from app.database import get_db
-
 from flask import make_response
 
 customer = Blueprint("customer", __name__)
@@ -29,24 +28,45 @@ def customer_home():
         """
     ).fetchall()
 
-    query = "SELECT * FROM products WHERE 1=1"
+    # Fetch products with average ratings and total reviews
+    query = """
+        SELECT
+            products.*,
+            COALESCE(AVG(reviews.rating), 0) AS average_rating,
+            COUNT(DISTINCT reviews.id) AS review_count
+        FROM products
+        LEFT JOIN order_items
+            ON products.id = order_items.product_id
+        LEFT JOIN reviews
+            ON order_items.order_id = reviews.order_id
+        WHERE 1=1
+    """
+
     params = []
 
     if search:
-        query += " AND (name LIKE ? OR category LIKE ?)"
+        query += """
+            AND (
+                products.name LIKE ?
+                OR products.category LIKE ?
+            )
+        """
         params.extend([f"%{search}%", f"%{search}%"])
 
     if selected_category:
-        query += " AND category = ?"
+        query += " AND products.category = ?"
         params.append(selected_category)
 
-    query += " ORDER BY name ASC"
+    query += """
+        GROUP BY products.id
+        ORDER BY products.name ASC
+    """
 
     products = db.execute(query, params).fetchall()
 
     cart = session.get("cart", {})
     cart_count = sum(int(qty) for qty in cart.values())
-    
+
     response = make_response(render_template(
         "customer_home.html",
         products=products,
@@ -61,6 +81,64 @@ def customer_home():
     response.headers["Expires"] = "0"
 
     return response
+
+
+# PUBLIC PRODUCT REVIEWS
+@customer.route("/customer/product/<int:product_id>/reviews")
+def product_reviews(product_id):
+
+    db = get_db()
+
+    # Get product details
+    product = db.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    if product is None:
+        flash("Product not found.", "error")
+        return redirect(url_for("customer.customer_home"))
+
+    # Get reviews from customers who purchased this product
+    reviews = db.execute(
+        """
+        SELECT DISTINCT
+            reviews.id,
+            reviews.rating,
+            reviews.comment,
+            reviews.created_at,
+            users.name AS customer_name
+        FROM reviews
+        JOIN order_items
+            ON reviews.order_id = order_items.order_id
+        JOIN users
+            ON reviews.customer_id = users.id
+        WHERE order_items.product_id = ?
+        ORDER BY reviews.created_at DESC
+        """,
+        (product_id,)
+    ).fetchall()
+
+    # Calculate average rating and review count
+    rating_summary = db.execute(
+        """
+        SELECT
+            COALESCE(AVG(reviews.rating), 0) AS average_rating,
+            COUNT(DISTINCT reviews.id) AS review_count
+        FROM reviews
+        JOIN order_items
+            ON reviews.order_id = order_items.order_id
+        WHERE order_items.product_id = ?
+        """,
+        (product_id,)
+    ).fetchone()
+
+    return render_template(
+        "customer_product_reviews.html",
+        product=product,
+        reviews=reviews,
+        rating_summary=rating_summary
+    )
 
 
 # ADD PRODUCT TO CART

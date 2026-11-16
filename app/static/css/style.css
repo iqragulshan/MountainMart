@@ -4946,3 +4946,351 @@ CART - QUANTITY AND REMOVE CONTROLS
         font-size: 32px;
     }
 }
+
+
+/* =========================================
+   PUBLIC CUSTOMER REVIEWS PAGE
+========================================= */
+
+.public-reviews-page {
+    padding: 55px 20px 75px;
+    background: #f7f9f7;
+    min-height: 65vh;
+}
+
+.public-reviews-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.reviews-back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #52745d;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.reviews-back-link:hover {
+    color: #294d35;
+}
+
+.public-product-summary {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    border: 1px solid #e8eee9;
+    margin-bottom: 35px;
+}
+
+.reviews-eyebrow {
+    color: #71917a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    margin: 0 0 10px;
+}
+
+.public-product-summary h1 {
+    color: #263b2e;
+    font-size: 30px;
+    margin: 0 0 8px;
+}
+
+.reviews-product-category {
+    color: #87938a;
+    font-size: 14px;
+    margin: 0 0 22px;
+}
+
+.public-rating-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.public-average-rating {
+    color: #263b2e;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.public-average-rating span {
+    color: #89948c;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.public-rating-stars,
+.public-review-stars {
+    display: flex;
+    gap: 3px;
+    font-size: 20px;
+}
+
+.public-rating-stars .full,
+.public-review-stars .full {
+    color: #e6ad35;
+}
+
+.public-rating-stars .empty,
+.public-review-stars .empty {
+    color: #dce2dd;
+}
+
+.public-rating-stars .half,
+.public-review-stars .half {
+    background: linear-gradient( 90deg, #e6ad35 50%, #dce2dd 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.public-rating-summary>p {
+    color: #87938a;
+    font-size: 13px;
+    margin: 0;
+}
+
+.public-customer-reviews {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #e8eee9;
+}
+
+.public-reviews-heading {
+    margin-bottom: 25px;
+}
+
+.public-reviews-heading h2 {
+    color: #263b2e;
+    font-size: 23px;
+    margin: 0 0 7px;
+}
+
+.public-reviews-heading p {
+    color: #87938a;
+    font-size: 14px;
+    margin: 0;
+}
+
+.public-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.public-review-card {
+    padding: 22px;
+    border: 1px solid #edf0ed;
+    border-radius: 12px;
+    background: #ffffff;
+    transition: border-color 0.2s ease;
+}
+
+.public-review-card:hover {
+    border-color: #cbd9ce;
+}
+
+.public-review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.public-review-customer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.review-customer-avatar {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    border-radius: 50%;
+    background: #e9f1eb;
+    color: #456b50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.public-review-customer h3 {
+    color: #304337;
+    font-size: 15px;
+    margin: 0 0 5px;
+}
+
+.public-review-date {
+    color: #9aa39d;
+    font-size: 12px;
+}
+
+.public-review-stars {
+    font-size: 17px;
+}
+
+.public-review-comment {
+    color: #66746a;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.public-review-comment.no-comment {
+    color: #a0aaa2;
+    font-style: italic;
+}
+
+.public-no-reviews {
+    text-align: center;
+    padding: 55px 20px;
+    border: 1px dashed #d9e2da;
+    border-radius: 12px;
+    background: #fbfcfb;
+}
+
+.no-reviews-icon {
+    color: #c4d3c7;
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.public-no-reviews h3 {
+    color: #344a39;
+    font-size: 20px;
+    margin: 0 0 10px;
+}
+
+.public-no-reviews p {
+    max-width: 450px;
+    margin: 0 auto 22px;
+    color: #87938a;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.reviews-shop-button {
+    display: inline-block;
+    padding: 11px 22px;
+    border-radius: 8px;
+    background: #456b50;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.reviews-shop-button:hover {
+    background: #34563e;
+}
+
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 600px) {
+    .public-reviews-page {
+        padding: 30px 14px 45px;
+    }
+    .public-product-summary {
+        padding: 23px 18px;
+    }
+    .public-product-summary h1 {
+        font-size: 24px;
+    }
+    .public-rating-summary {
+        gap: 9px;
+    }
+    .public-average-rating {
+        font-size: 23px;
+    }
+    .public-customer-reviews {
+        padding: 22px 16px;
+    }
+    .public-review-card {
+        padding: 17px;
+    }
+    .public-review-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .public-review-stars {
+        margin-left: 55px;
+    }
+}
+
+
+/* PRODUCT CARD RATING DESIGN */
+
+.product-rating-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 12px 0 9px;
+    min-height: 22px;
+}
+
+.product-rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.product-rating-stars .full {
+    color: #e5aa32;
+}
+
+.product-rating-stars .half {
+    background: linear-gradient( 90deg, #e5aa32 50%, #dce2dd 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.product-rating-stars .empty {
+    color: #dce2dd;
+}
+
+.product-rating-value {
+    color: #53665a;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.view-product-reviews {
+    color: #52745d;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border-left: 1px solid #dce4de;
+    padding-left: 7px;
+    transition: color 0.2s ease;
+}
+
+.view-product-reviews:hover {
+    color: #244b32;
+    text-decoration: underline;
+}
+
+.no-product-reviews {
+    color: #9aa59c;
+    font-size: 12px;
+    font-weight: 500;
+}
