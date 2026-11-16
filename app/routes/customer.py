@@ -1,11 +1,11 @@
 
 from flask import (
     Blueprint, render_template, request,
-    redirect, url_for, session, flash
+    redirect, url_for, session, flash,
+    make_response
 )
 
 from app.database import get_db
-from flask import make_response
 
 customer = Blueprint("customer", __name__)
 
@@ -76,7 +76,9 @@ def customer_home():
         cart_count=cart_count
     ))
 
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Cache-Control"] = (
+        "no-store, no-cache, must-revalidate, max-age=0"
+    )
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
 
@@ -99,7 +101,7 @@ def product_reviews(product_id):
         flash("Product not found.", "error")
         return redirect(url_for("customer.customer_home"))
 
-    # Get reviews from customers who purchased this product
+    # Get reviews with customer names from orders and users
     reviews = db.execute(
         """
         SELECT DISTINCT
@@ -107,11 +109,17 @@ def product_reviews(product_id):
             reviews.rating,
             reviews.comment,
             reviews.created_at,
-            users.name AS customer_name
+            COALESCE(
+                NULLIF(orders.customer_name, ''),
+                users.name,
+                'Guest'
+            ) AS customer_name
         FROM reviews
         JOIN order_items
             ON reviews.order_id = order_items.order_id
-        JOIN users
+        LEFT JOIN orders
+            ON reviews.order_id = orders.id
+        LEFT JOIN users
             ON reviews.customer_id = users.id
         WHERE order_items.product_id = ?
         ORDER BY reviews.created_at DESC
