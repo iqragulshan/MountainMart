@@ -5294,3 +5294,244 @@ CART - QUANTITY AND REMOVE CONTROLS
     font-size: 12px;
     font-weight: 500;
 }
+
+
+/* STORE SETTINGS PAGE */
+
+.store-settings-page {
+    background: #f6f7f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.store-settings-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.store-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.store-settings-header h1 {
+    font-size: 28px;
+    color: #202b3c;
+    margin: 0 0 8px;
+}
+
+.store-settings-header p,
+.settings-card-heading p {
+    color: #7b8493;
+    font-size: 14px;
+    margin: 0;
+}
+
+.settings-back-link {
+    text-decoration: none;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 11px 16px;
+    border-radius: 9px;
+    white-space: nowrap;
+}
+
+.settings-back-link:hover {
+    background: #f0f2f5;
+}
+
+.store-settings-card {
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #e9edf2;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(25, 40, 60, 0.04);
+}
+
+.settings-card-heading {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+.settings-card-heading h2 {
+    color: #202b3c;
+    font-size: 19px;
+    margin: 0 0 7px;
+}
+
+.settings-form-group {
+    margin-bottom: 22px;
+}
+
+.settings-form-group label {
+    display: block;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 9px;
+}
+
+.settings-form-group input,
+.settings-form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #dfe3e8;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #202b3c;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.settings-form-group input:focus,
+.settings-form-group textarea:focus {
+    border-color: #31866a;
+    box-shadow: 0 0 0 3px rgba(49, 134, 106, 0.10);
+}
+
+.settings-form-group textarea {
+    resize: vertical;
+}
+
+.settings-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+}
+
+.settings-form-actions button {
+    border: none;
+    background: #247653;
+    color: #fff;
+    padding: 13px 25px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.settings-form-actions button:hover {
+    background: #1c6043;
+}
+
+.settings-flash {
+    padding: 13px 16px;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.settings-flash.success {
+    background: #e8f7ee;
+    color: #207344;
+}
+
+.settings-flash.error {
+    background: #fdecec;
+    color: #b42318;
+}
+
+@media (max-width: 600px) {
+    .store-settings-page {
+        padding: 25px 14px;
+    }
+    .store-settings-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .store-settings-header h1 {
+        font-size: 23px;
+    }
+    .store-settings-card {
+        padding: 20px 16px;
+    }
+    .settings-form-actions button {
+        width: 100%;
+    }
+}
+
+
+/* CUSTOMER ABOUT SECTION */
+
+.customer-about {
+    text-align: center;
+    padding: 45px 20px;
+}
+
+.customer-about h2 {
+    margin-bottom: 12px;
+}
+
+.customer-about p {
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+
+/* CUSTOMER FOOTER */
+
+.customer-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 20px 35px;
+    background: #ffffff;
+    color: inherit;
+    position: relative;
+}
+
+.footer-contact {
+    grid-column: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 22px;
+    white-space: nowrap;
+}
+
+.footer-contact p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.footer-copyright {
+    grid-column: 2;
+    text-align: center;
+    margin: 0;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .customer-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 18px 14px;
+    }
+    .footer-contact {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 18px;
+        white-space: normal;
+    }
+    .footer-copyright {
+        text-align: center;
+        white-space: normal;
+    }
+}

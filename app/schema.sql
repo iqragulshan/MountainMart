@@ -53,3 +53,12 @@ CREATE TABLE IF NOT EXISTS suppliers (
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS store_settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    store_name TEXT NOT NULL DEFAULT 'Mountain Mart',
+    phone TEXT,
+    address TEXT,
+    description TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -61,10 +61,13 @@
                     <span>📊</span> Reports
                 </a>
 
-                <div class="sidebar-link coming-soon">
-                    <span>⚙</span> Settings
-                    <small>Coming Soon</small>
-                </div>
+                <a href="{{ url_for('main.manager_reviews') }}" class="sidebar-link">
+                    <span>⭐</span> Customer Reviews
+                </a>
+
+                <a href="{{ url_for('main.store_settings') }}" class="sidebar-link">
+                    <span>⚙️</span> Store Settings
+                </a>
 
             </aside>
 

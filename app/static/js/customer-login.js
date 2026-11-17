@@ -1,3 +1,4 @@
+
 const emailInput = document.getElementById("customer-email");
 
 const savedEmails = JSON.parse(
@@ -12,11 +13,13 @@ emailInput.parentNode.insertBefore(
     emailInput.nextSibling
 );
 
+// Show saved email suggestions only when requested manually
 function showSuggestions() {
     suggestionBox.innerHTML = "";
 
     savedEmails.forEach(email => {
         const item = document.createElement("div");
+
         item.textContent = email;
         item.className = "email-suggestion";
 
@@ -32,8 +35,7 @@ function showSuggestions() {
         savedEmails.length ? "block" : "none";
 }
 
-emailInput.addEventListener("focus", showSuggestions);
-
+// Hide suggestions when clicking outside
 document.addEventListener("click", function(event) {
     if (
         event.target !== emailInput &&
@@ -43,15 +45,18 @@ document.addEventListener("click", function(event) {
     }
 });
 
-emailInput.form.addEventListener("submit", function() {
-    const email = emailInput.value.trim();
+// Save email after form submission
+if (emailInput.form) {
+    emailInput.form.addEventListener("submit", function() {
+        const email = emailInput.value.trim();
 
-    if (email && !savedEmails.includes(email)) {
-        savedEmails.push(email);
+        if (email && !savedEmails.includes(email)) {
+            savedEmails.push(email);
 
-        localStorage.setItem(
-            "customerEmails",
-            JSON.stringify(savedEmails)
-        );
-    }
-});
+            localStorage.setItem(
+                "customerEmails",
+                JSON.stringify(savedEmails)
+            );
+        }
+    });
+}

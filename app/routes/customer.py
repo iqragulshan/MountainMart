@@ -16,6 +16,31 @@ def customer_home():
 
     db = get_db()
 
+    # Ensure store settings table exists
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS store_settings (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            store_name TEXT NOT NULL DEFAULT 'Mountain Mart',
+            phone TEXT,
+            address TEXT,
+            description TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    db.execute("""
+        INSERT OR IGNORE INTO store_settings (id)
+        VALUES (1)
+    """)
+    db.commit()
+
+    # Fetch store settings
+    settings = db.execute("""
+        SELECT *
+        FROM store_settings
+        WHERE id = 1
+    """).fetchone()
+
     search = request.args.get("search", "").strip()
     selected_category = request.args.get("category", "").strip()
 
@@ -73,7 +98,8 @@ def customer_home():
         search=search,
         categories=categories,
         selected_category=selected_category,
-        cart_count=cart_count
+        cart_count=cart_count,
+        settings=settings
     ))
 
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"

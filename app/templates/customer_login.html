@@ -28,9 +28,11 @@
             <form id="customer-login-form" method="POST" action="{{ url_for('auth.customer_login') }}">
 
                 <label for="customer-email">Email Address</label>
-                <input type="email" id="customer-email" name="email" placeholder="Enter your email" autocomplete="section-customer username" required>
+
+                <input type="email" id="customer-email" name="email" placeholder="Enter your email" autocomplete="username" required>
 
                 <label for="customer-password">Password</label>
+
                 <input type="password" id="customer-password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
 
                 <button type="submit" class="auth-button">
@@ -39,7 +41,7 @@
 
             </form>
 
-            <!-- Flash Messages -->
+            <!-- FLASH MESSAGES -->
             {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
             <div class="auth-message {{ category }}">
                 {{ message }}
