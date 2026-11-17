@@ -5257,7 +5257,7 @@ CART - QUANTITY AND REMOVE CONTROLS
 }
 
 .product-rating-stars .half {
-    background: linear-gradient( 90deg, #e5aa32 50%, #dce2dd 50%);
+    background: linear-gradient(90deg, #e5aa32 50%, #dce2dd 50%);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -5296,187 +5296,140 @@ CART - QUANTITY AND REMOVE CONTROLS
 }
 
 
-/* STORE SETTINGS PAGE */
+/* =====================================
+   MOUNTAIN MART - BRAND LOGO STYLING
+===================================== */
 
-.store-settings-page {
-    background: #f6f7f9;
-    min-height: 100vh;
-    padding: 40px 20px;
-    font-family: 'Manrope', sans-serif;
+
+/* CUSTOMER LOGIN & REGISTER LOGO */
+
+.auth-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto 25px;
+    text-align: center;
+    text-decoration: none;
 }
 
-.store-settings-container {
-    max-width: 900px;
+.auth-brand-logo {
+    display: block;
+    width: 220px;
+    max-width: 100%;
+    max-height: 120px;
+    height: auto;
+    object-fit: contain;
     margin: 0 auto;
 }
 
-.store-settings-header {
+
+/* MANAGER LOGIN LOGO */
+
+.manager-login-brand {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 30px;
+    width: 100%;
+    margin: 0 auto 20px;
+    text-decoration: none;
 }
 
-.store-settings-header h1 {
-    font-size: 28px;
-    color: #202b3c;
-    margin: 0 0 8px;
+.manager-login-logo {
+    display: block;
+    width: 230px;
+    max-width: 100%;
+    max-height: 130px;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
 }
 
-.store-settings-header p,
-.settings-card-heading p {
-    color: #7b8493;
-    font-size: 14px;
+
+/* MANAGER DASHBOARD LOGO */
+
+.dashboard-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.dashboard-logo {
+    display: block;
+    width: 140px;
+    max-width: 100%;
+    height: 60px;
+    object-fit: contain;
+}
+
+.dashboard-brand p {
     margin: 0;
 }
 
-.settings-back-link {
+
+/* CUSTOMER HOME HEADER LOGO */
+
+.customer-brand a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
-    color: #344054;
-    font-size: 13px;
-    font-weight: 600;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    padding: 11px 16px;
-    border-radius: 9px;
-    white-space: nowrap;
+    line-height: 0;
 }
 
-.settings-back-link:hover {
-    background: #f0f2f5;
-}
-
-.store-settings-card {
-    background: #fff;
-    padding: 30px;
-    border: 1px solid #e9edf2;
-    border-radius: 14px;
-    box-shadow: 0 5px 20px rgba(25, 40, 60, 0.04);
-}
-
-.settings-card-heading {
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #edf0f3;
-}
-
-.settings-card-heading h2 {
-    color: #202b3c;
-    font-size: 19px;
-    margin: 0 0 7px;
-}
-
-.settings-form-group {
-    margin-bottom: 22px;
-}
-
-.settings-form-group label {
+.customer-brand-logo {
     display: block;
-    color: #344054;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 9px;
+    width: 190px;
+    max-width: 100%;
+    max-height: 85px;
+    height: auto;
+    object-fit: contain;
 }
 
-.settings-form-group input,
-.settings-form-group textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px 14px;
-    border: 1px solid #dfe3e8;
-    border-radius: 9px;
-    font-family: inherit;
-    font-size: 14px;
-    color: #202b3c;
-    background: #fff;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
 
-.settings-form-group input:focus,
-.settings-form-group textarea:focus {
-    border-color: #31866a;
-    box-shadow: 0 0 0 3px rgba(49, 134, 106, 0.10);
-}
+/* RESPONSIVE LOGO SIZES */
 
-.settings-form-group textarea {
-    resize: vertical;
-}
-
-.settings-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 28px;
-}
-
-.settings-form-actions button {
-    border: none;
-    background: #247653;
-    color: #fff;
-    padding: 13px 25px;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.settings-form-actions button:hover {
-    background: #1c6043;
-}
-
-.settings-flash {
-    padding: 13px 16px;
-    border-radius: 9px;
-    margin-bottom: 20px;
-    font-size: 14px;
-}
-
-.settings-flash.success {
-    background: #e8f7ee;
-    color: #207344;
-}
-
-.settings-flash.error {
-    background: #fdecec;
-    color: #b42318;
-}
-
-@media (max-width: 600px) {
-    .store-settings-page {
-        padding: 25px 14px;
+@media (max-width: 768px) {
+    .auth-brand-logo {
+        width: 200px;
     }
-    .store-settings-header {
-        align-items: flex-start;
-        flex-direction: column;
+    .manager-login-logo {
+        width: 210px;
     }
-    .store-settings-header h1 {
-        font-size: 23px;
+    .dashboard-logo {
+        width: 130px;
+        height: 55px;
     }
-    .store-settings-card {
-        padding: 20px 16px;
-    }
-    .settings-form-actions button {
-        width: 100%;
+    .customer-brand-logo {
+        width: 165px;
     }
 }
 
-
-/* CUSTOMER ABOUT SECTION */
-
-.customer-about {
-    text-align: center;
-    padding: 45px 20px;
+@media (max-width: 480px) {
+    .auth-brand-logo {
+        width: 185px;
+    }
+    .manager-login-logo {
+        width: 190px;
+    }
+    .dashboard-logo {
+        width: 120px;
+        height: 50px;
+    }
+    .customer-brand-logo {
+        width: 145px;
+    }
 }
 
-.customer-about h2 {
-    margin-bottom: 12px;
-}
-
-.customer-about p {
-    max-width: 650px;
-    margin: 0 auto;
-    line-height: 1.7;
+@media (max-width: 350px) {
+    .customer-brand-logo {
+        width: 125px;
+    }
+    .dashboard-logo {
+        width: 110px;
+        height: 45px;
+    }
 }
 
 
@@ -5485,53 +5438,73 @@ CART - QUANTITY AND REMOVE CONTROLS
 .customer-footer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "about copyright contact";
     align-items: center;
-    padding: 20px 35px;
-    background: #ffffff;
-    color: inherit;
-    position: relative;
+    gap: 15px;
+    padding: 15px 7%;
+    background: #183d32;
+    color: #ffffff;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.footer-contact {
-    grid-column: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 22px;
-    white-space: nowrap;
-}
-
-.footer-contact p {
+.customer-footer .customer-about {
+    grid-area: about;
+    padding: 0;
     margin: 0;
-    font-size: 13px;
-    line-height: 1.6;
+    background: transparent;
+    text-align: left;
 }
 
-.footer-copyright {
-    grid-column: 2;
+.customer-footer .customer-about h2 {
+    margin: 0 0 5px;
+    color: #ffffff;
+    font-size: 19px;
+}
+
+.customer-footer .customer-about p {
+    margin: 0;
+    color: #e0e9e3;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.customer-footer .footer-copyright {
+    grid-area: copyright;
+    margin: 0;
     text-align: center;
-    margin: 0;
-    font-size: 13px;
-    white-space: nowrap;
+    color: #e0e9e3;
+    font-size: 12px;
 }
 
-@media (max-width: 700px) {
+.customer-footer .footer-contact {
+    grid-area: contact;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.customer-footer .footer-contact p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
     .customer-footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        padding: 18px 14px;
-    }
-    .footer-contact {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px 18px;
-        white-space: normal;
-    }
-    .footer-copyright {
+        grid-template-columns: 1fr;
+        grid-template-areas: "about" "copyright" "contact";
+        justify-items: center;
         text-align: center;
-        white-space: normal;
+        gap: 12px;
+        padding: 18px 5%;
+    }
+    .customer-footer .customer-about {
+        text-align: center;
+    }
+    .customer-footer .footer-contact {
+        align-items: center;
+        text-align: center;
     }
 }

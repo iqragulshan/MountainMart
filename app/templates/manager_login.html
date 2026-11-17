@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mountain Mart - Manager Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
+    <script src="{{ url_for('static', filename='js/manager-login.js') }}" defer></script>
 </head>
-
-<script src="{{ url_for('static', filename='js/manager-login.js') }}" defer></script>
 
 <body class="manager-login-page">
 
     <div class="manager-login-container">
 
-        <h1>Mountain Mart</h1>
+        <a href="{{ url_for('customer.customer_home') }}" class="manager-login-brand">
+            <img src="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}" alt="Mountain Mart - Your Local General Store" class="manager-login-logo">
+        </a>
+
         <h2>Manager Login</h2>
 
         <form method="POST" action="{{ url_for('auth.manager_login') }}">
