@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ settings.store_name if settings and settings.store_name else 'Mountain Mart' }} | General Store</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
 
-<script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
 
 <body class="customer-page">
 
@@ -20,7 +21,7 @@
 
         <div class="customer-brand">
             <a href="{{ url_for('customer.customer_home') }}">
-                {{ store_name }}
+                <img src="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}" alt="Mountain Mart - Your Local General Store" class="customer-brand-logo">
             </a>
         </div>
 
@@ -39,16 +40,16 @@
             </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
 
             <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
-                    My Orders
-                </a>
+                My Orders
+            </a>
 
             <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
-                    Logout
-                </a> {% else %}
+                Logout
+            </a> {% else %}
 
             <a href="{{ url_for('auth.customer_login') }}" class="customer-login">
-                    Login
-                </a> {% endif %}
+                Login
+            </a> {% endif %}
 
         </div>
 
@@ -56,6 +57,7 @@
 
     <!-- HERO SECTION -->
     <section class="customer-hero">
+
         <div class="hero-content">
 
             <p class="hero-tagline">
@@ -76,6 +78,7 @@
             </a>
 
         </div>
+
     </section>
 
     <!-- PRODUCTS SECTION -->
@@ -114,14 +117,15 @@
                 </a> {% for category in categories %}
 
                 <a href="{{ url_for('customer.customer_home', category=category.category, search=search) }}#products" class="category-item">
-                        {{ category.category|title }}
-                    </a> {% else %}
+                    {{ category.category|title }}
+                </a> {% else %}
 
                 <p>No categories available yet.</p>
 
                 {% endfor %}
 
             </div>
+
         </div>
 
         <!-- PRODUCT GRID -->
@@ -169,32 +173,32 @@
                         </div>
 
                         <span class="product-rating-value">
-                                    {{ "%.1f"|format(product.average_rating) }} / 5
-                                </span>
+                            {{ "%.1f"|format(product.average_rating) }} / 5
+                        </span>
 
                         <a href="{{ url_for('customer.product_reviews', product_id=product.id) }}" class="view-product-reviews">
 
-                                    {{ product.review_count }}
+                            {{ product.review_count }}
 
-                                    {% if product.review_count == 1 %}
-                                        Review
-                                    {% else %}
-                                        Reviews
-                                    {% endif %}
+                            {% if product.review_count == 1 %}
+                                Review
+                            {% else %}
+                                Reviews
+                            {% endif %}
 
-                                </a> {% else %}
+                        </a> {% else %}
 
                         <span class="no-product-reviews">
-                                    No reviews yet
-                                </span> {% endif %}
+                            No reviews yet
+                        </span> {% endif %}
 
                     </div>
 
                     {% if product.quantity > 0 %}
 
                     <span>
-                                Available: {{ product.quantity }}
-                            </span>
+                        Available: {{ product.quantity }}
+                    </span>
 
                     <form method="POST" action="{{ url_for('customer.add_to_cart', product_id=product.id) }}">
 
@@ -202,22 +206,23 @@
                         <input type="hidden" name="search" value="{{ search }}">
 
                         <button type="submit" class="add-to-cart-button">
-                                    Add to Cart +
-                                </button>
+                            Add to Cart +
+                        </button>
 
                     </form>
 
                     {% else %}
 
                     <span class="out-of-stock">
-                                Out of Stock
-                            </span>
+                        Out of Stock
+                    </span>
 
                     <button type="button" class="add-to-cart-button" disabled>
-                                Unavailable
-                            </button> {% endif %}
+                        Unavailable
+                    </button> {% endif %}
 
                 </div>
+
             </div>
 
             {% else %}
@@ -230,34 +235,37 @@
 
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section class="customer-about" id="about">
-
-        <h2>{{ store_name }}</h2>
-
-        <p>
-            {{ store_description }}
-        </p>
-
-    </section>
-
     <!-- FOOTER -->
     <footer class="customer-footer">
 
-        <div class="footer-contact">
-            {% if settings and settings.phone %}
-            <p>Contact: {{ settings.phone }}</p>
-            {% endif %} {% if settings and settings.address %}
-            <p>Address: {{ settings.address }}</p>
-            {% endif %}
-        </div>
+        <section class="customer-about" id="about">
+
+            <h2>{{ store_name }}</h2>
+
+            <p>
+                {{ store_description }}
+            </p>
+
+        </section>
 
         <p class="footer-copyright">
             © 2026 {{ store_name }}. All rights reserved.
         </p>
 
+        <div class="footer-contact">
+
+            {% if settings and settings.phone %}
+            <p>Contact: {{ settings.phone }}</p>
+            {% endif %} {% if settings and settings.address %}
+            <p>Address: {{ settings.address }}</p>
+            {% endif %}
+
+        </div>
+
     </footer>
 
 </body>
+
+</html>
 
 </html>
