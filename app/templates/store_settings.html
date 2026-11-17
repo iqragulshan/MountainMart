@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Store Settings | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="store-settings-page">
+
+    <main class="store-settings-container">
+
+        <header class="store-settings-header">
+            <div>
+                <h1>Store Settings</h1>
+                <p>Manage your store information and contact details.</p>
+            </div>
+
+            <a href="{{ url_for('main.manager_dashboard') }}" class="settings-back-link">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+        <div class="settings-flash {{ category }} auto-hide-message">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <section class="store-settings-card">
+
+            <div class="settings-card-heading">
+                <h2>Store Information</h2>
+                <p>Update the details customers see about your store.</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('main.store_settings') }}">
+
+                <div class="settings-form-group">
+                    <label for="store_name">Store Name</label>
+                    <input type="text" id="store_name" name="store_name" value="{{ settings.store_name }}" placeholder="Enter store name" required>
+                </div>
+
+                <div class="settings-form-group">
+                    <label for="phone">Contact Number</label>
+                    <input type="tel" id="phone" name="phone" value="{{ settings.phone or '' }}" placeholder="Enter contact number">
+                </div>
+
+                <div class="settings-form-group">
+                    <label for="address">Store Address</label>
+                    <textarea id="address" name="address" rows="3" placeholder="Enter store address">{{ settings.address or '' }}</textarea>
+                </div>
+
+                <div class="settings-form-group">
+                    <label for="description">Store Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Write a short description about your store">{{ settings.description or '' }}</textarea>
+                </div>
+
+                <div class="settings-form-actions">
+                    <button type="submit">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/store_settings.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,8 @@
 
-from flask import Blueprint, redirect, url_for, session, render_template, request
+from flask import (
+    Blueprint, redirect, url_for, session,
+    render_template, request, flash
+)
 from app.database import get_db
 
 main = Blueprint("main", __name__)
@@ -73,7 +76,6 @@ def sales_reports():
 
     db = get_db()
 
-    # DATE FILTER
     start_date = request.args.get("start_date", "")
     end_date = request.args.get("end_date", "")
 
@@ -197,7 +199,7 @@ def sales_chart_data():
             SUM(total_amount) AS revenue
         FROM orders
         WHERE status = 'Delivered'
-        GROUP BY strftime('%Y-%m', created_at)
+        GROUP BY month
         ORDER BY month ASC
         LIMIT 6
         """
@@ -207,3 +209,113 @@ def sales_chart_data():
         "labels": [row["month"] for row in monthly_sales],
         "values": [row["revenue"] for row in monthly_sales]
     }
+
+
+# MANAGER REVIEWS
+@main.route("/manager/reviews")
+def manager_reviews():
+
+    if "user_id" not in session:
+        return redirect(url_for("auth.manager_login"))
+
+    if session.get("user_role") != "manager":
+        return "Access denied!", 403
+
+    db = get_db()
+
+    reviews = db.execute("""
+        SELECT
+            reviews.id,
+            reviews.rating,
+            reviews.comment,
+            reviews.created_at,
+            COALESCE(
+                NULLIF(orders.customer_name, ''),
+                users.name,
+                'Guest'
+            ) AS customer_name
+        FROM reviews
+        LEFT JOIN orders
+            ON reviews.order_id = orders.id
+        LEFT JOIN users
+            ON reviews.customer_id = users.id
+        ORDER BY reviews.created_at DESC
+    """).fetchall()
+
+    review_stats = db.execute("""
+        SELECT
+            COUNT(*) AS total_reviews,
+            COALESCE(AVG(rating), 0) AS average_rating
+        FROM reviews
+    """).fetchone()
+
+    return render_template(
+        "manager_reviews.html",
+        reviews=reviews,
+        review_stats=review_stats
+    )
+
+
+# STORE SETTINGS
+@main.route("/manager/settings", methods=["GET", "POST"])
+def store_settings():
+
+    if "user_id" not in session:
+        return redirect(url_for("auth.manager_login"))
+
+    if session.get("user_role") != "manager":
+        return "Access denied!", 403
+
+    db = get_db()
+
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS store_settings (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            store_name TEXT NOT NULL DEFAULT 'Mountain Mart',
+            phone TEXT,
+            address TEXT,
+            description TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    db.execute("""
+        INSERT OR IGNORE INTO store_settings (id)
+        VALUES (1)
+    """)
+    db.commit()
+
+    if request.method == "POST":
+
+        store_name = request.form.get("store_name", "").strip()
+        phone = request.form.get("phone", "").strip()
+        address = request.form.get("address", "").strip()
+        description = request.form.get("description", "").strip()
+
+        if not store_name:
+            flash("Store name is required.", "error")
+        else:
+            db.execute("""
+                UPDATE store_settings
+                SET store_name = ?,
+                    phone = ?,
+                    address = ?,
+                    description = ?,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = 1
+            """, (store_name, phone, address, description))
+
+            db.commit()
+            flash("Store settings updated successfully!", "success")
+
+        return redirect(url_for("main.store_settings"))
+
+    settings = db.execute("""
+        SELECT * FROM store_settings
+        WHERE id = 1
+    """).fetchone()
+
+    return render_template(
+        "store_settings.html",
+        settings=settings
+    )

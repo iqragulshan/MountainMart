@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mountain Mart | General Store</title>
+    <title>{{ settings.store_name if settings and settings.store_name else 'Mountain Mart' }} | General Store</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -12,12 +12,15 @@
 
 <body class="customer-page">
 
+    {% set store_name = settings.store_name if settings and settings.store_name else 'Mountain Mart' %} {% set store_description = settings.description if settings and settings.description else 'Your trusted neighbourhood general store in Gilgit. Everyday
+    essentials, conveniently available.' %}
+
     <!-- HEADER -->
     <header class="customer-header">
 
         <div class="customer-brand">
             <a href="{{ url_for('customer.customer_home') }}">
-                Mountain Mart
+                {{ store_name }}
             </a>
         </div>
 
@@ -34,12 +37,15 @@
                     <span class="cart-count-badge">{{ cart_count }}</span>
                 {% endif %}
             </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+
             <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
                     My Orders
                 </a>
+
             <a href="{{ url_for('auth.customer_logout') }}" class="customer-login">
                     Logout
                 </a> {% else %}
+
             <a href="{{ url_for('auth.customer_login') }}" class="customer-login">
                     Login
                 </a> {% endif %}
@@ -52,7 +58,9 @@
     <section class="customer-hero">
         <div class="hero-content">
 
-            <p class="hero-tagline">WELCOME TO MOUNTAIN MART</p>
+            <p class="hero-tagline">
+                WELCOME TO {{ store_name|upper }}
+            </p>
 
             <h1>
                 Everyday Essentials,
@@ -104,10 +112,13 @@
                 <a href="{{ url_for('customer.customer_home', search=search) }}#products" class="category-item">
                     All
                 </a> {% for category in categories %}
+
                 <a href="{{ url_for('customer.customer_home', category=category.category, search=search) }}#products" class="category-item">
                         {{ category.category|title }}
                     </a> {% else %}
+
                 <p>No categories available yet.</p>
+
                 {% endfor %}
 
             </div>
@@ -123,7 +134,9 @@
                 <div class="product-image-placeholder">
 
                     {% if product.image %}
+
                     <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" loading="lazy"> {% else %}
+
                     <span>🛒</span> {% endif %}
 
                 </div>
@@ -144,36 +157,44 @@
                         {% if product.review_count > 0 %}
 
                         <div class="product-rating-stars">
+
                             {% for star in range(1, 6) %} {% if product.average_rating >= star %}
+
                             <span class="full">★</span> {% elif product.average_rating >= star - 0.5 %}
+
                             <span class="half">★</span> {% else %}
+
                             <span class="empty">★</span> {% endif %} {% endfor %}
+
                         </div>
 
                         <span class="product-rating-value">
-                                {{ "%.1f"|format(product.average_rating) }} / 5
-                            </span>
+                                    {{ "%.1f"|format(product.average_rating) }} / 5
+                                </span>
 
                         <a href="{{ url_for('customer.product_reviews', product_id=product.id) }}" class="view-product-reviews">
-                                {{ product.review_count }}
-                                {% if product.review_count == 1 %}
-                                    Review
-                                {% else %}
-                                    Reviews
-                                {% endif %}
-                            </a> {% else %}
+
+                                    {{ product.review_count }}
+
+                                    {% if product.review_count == 1 %}
+                                        Review
+                                    {% else %}
+                                        Reviews
+                                    {% endif %}
+
+                                </a> {% else %}
 
                         <span class="no-product-reviews">
-                                No reviews yet
-                            </span> {% endif %}
+                                    No reviews yet
+                                </span> {% endif %}
 
                     </div>
 
                     {% if product.quantity > 0 %}
 
                     <span>
-                            Available: {{ product.quantity }}
-                        </span>
+                                Available: {{ product.quantity }}
+                            </span>
 
                     <form method="POST" action="{{ url_for('customer.add_to_cart', product_id=product.id) }}">
 
@@ -181,20 +202,20 @@
                         <input type="hidden" name="search" value="{{ search }}">
 
                         <button type="submit" class="add-to-cart-button">
-                                Add to Cart +
-                            </button>
+                                    Add to Cart +
+                                </button>
 
                     </form>
 
                     {% else %}
 
                     <span class="out-of-stock">
-                            Out of Stock
-                        </span>
+                                Out of Stock
+                            </span>
 
                     <button type="button" class="add-to-cart-button" disabled>
-                            Unavailable
-                        </button> {% endif %}
+                                Unavailable
+                            </button> {% endif %}
 
                 </div>
             </div>
@@ -212,17 +233,29 @@
     <!-- ABOUT SECTION -->
     <section class="customer-about" id="about">
 
-        <h2>Mountain Mart</h2>
+        <h2>{{ store_name }}</h2>
 
         <p>
-            Your trusted neighbourhood general store in Gilgit. Everyday essentials, conveniently available.
+            {{ store_description }}
         </p>
 
     </section>
 
     <!-- FOOTER -->
     <footer class="customer-footer">
-        <p>© 2026 Mountain Mart. All rights reserved.</p>
+
+        <div class="footer-contact">
+            {% if settings and settings.phone %}
+            <p>Contact: {{ settings.phone }}</p>
+            {% endif %} {% if settings and settings.address %}
+            <p>Address: {{ settings.address }}</p>
+            {% endif %}
+        </div>
+
+        <p class="footer-copyright">
+            © 2026 {{ store_name }}. All rights reserved.
+        </p>
+
     </footer>
 
 </body>
