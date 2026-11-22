@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
 </head>
+  
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+
+</head>
 
 <body class="customer-page">
 
@@ -19,7 +24,7 @@
 
         <div class="customer-brand">
             <a href="{{ url_for('customer.customer_home') }}">
-                {{ store_name }}
+                <img src="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}" alt="Mountain Mart - Your Local General Store" class="customer-brand-logo">
             </a>
         </div>
 
@@ -55,6 +60,7 @@
 
     <!-- HERO SECTION -->
     <section class="customer-hero">
+
         <div class="hero-content">
 
             <p class="hero-tagline">
@@ -75,6 +81,7 @@
             </a>
 
         </div>
+
     </section>
 
     <!-- PRODUCTS SECTION -->
@@ -121,6 +128,7 @@
                 {% endfor %}
 
             </div>
+
         </div>
 
         <!-- PRODUCT GRID -->
@@ -217,6 +225,7 @@
                     </button> {% endif %}
 
                 </div>
+
             </div>
 
             {% else %}
@@ -229,19 +238,22 @@
 
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section class="customer-about" id="about">
-
-        <h2>{{ store_name }}</h2>
-
-        <p>
-            {{ store_description }}
-        </p>
-
-    </section>
-
     <!-- FOOTER -->
     <footer class="customer-footer">
+
+        <section class="customer-about" id="about">
+
+            <h2>{{ store_name }}</h2>
+
+            <p>
+                {{ store_description }}
+            </p>
+
+        </section>
+
+        <p class="footer-copyright">
+            © 2026 {{ store_name }}. All rights reserved.
+        </p>
 
         <div class="footer-contact">
 
@@ -251,14 +263,16 @@
             <p>Address: {{ settings.address }}</p>
             {% endif %}
 
+
         </div>
 
-        <p class="footer-copyright">
-            © 2026 {{ store_name }}. All rights reserved.
-        </p>
+
+        </div>
 
     </footer>
 
 </body>
+
+</html>
 
 </html>

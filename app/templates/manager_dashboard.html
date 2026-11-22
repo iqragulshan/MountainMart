@@ -7,6 +7,8 @@
 
     <title>Manager Dashboard | Mountain Mart</title>
 
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -14,8 +16,9 @@
 
     <header class="dashboard-header">
 
-        <div>
-            <h1>Mountain Mart</h1>
+        <div class="dashboard-brand">
+            <img src="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}" alt="Mountain Mart - Your Local General Store" class="dashboard-logo">
+
             <p>General Store · Gilgit</p>
         </div>
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account | Mountain Mart</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -13,8 +14,7 @@
     <div class="auth-container">
 
         <a href="{{ url_for('customer.customer_home') }}" class="auth-brand">
-            <h2>Mountain Mart</h2>
-            <p>YOUR LOCAL GENERAL STORE</p>
+            <img src="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}" alt="Mountain Mart - Your Local General Store" class="auth-brand-logo">
         </a>
 
         <div class="auth-card">
@@ -26,7 +26,9 @@
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %} {% for category, message in messages %}
-            <div class="auth-message {{ category }}">{{ message }}</div>
+            <div class="auth-message {{ category }}">
+                {{ message }}
+            </div>
             {% endfor %} {% endwith %}
 
             <form method="POST" action="{{ url_for('auth.customer_register') }}">
