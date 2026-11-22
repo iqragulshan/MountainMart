@@ -26,10 +26,15 @@ def manager_login():
             flash("Invalid email or password.", "error")
             return redirect(url_for("auth.manager_login"))
 
-        session.clear()
-        session["user_id"] = user["id"]
-        session["user_role"] = user["role"]
-        session["user_name"] = user["name"]
+        session.pop("user_id", None)
+        session.pop("user_role", None)
+        session.pop("user_name", None)
+
+        session["manager"] = {
+            "user_id": user["id"],
+            "user_role": user["role"],
+            "user_name": user["name"]
+        }
 
         return redirect(url_for("main.manager_dashboard"))
 
@@ -40,7 +45,7 @@ def manager_login():
 @auth.route("/manager/logout")
 def manager_logout():
 
-    session.clear()
+    session.pop("manager", None)
     return redirect(url_for("auth.manager_login"))
 
 
@@ -92,10 +97,11 @@ def customer_login():
             flash("Invalid email or password.", "error")
             return redirect(url_for("auth.customer_login"))
 
-        session.clear()
-        session["user_id"] = user["id"]
-        session["user_role"] = user["role"]
-        session["user_name"] = user["name"]
+        session["customer"] = {
+            "user_id": user["id"],
+            "user_role": user["role"],
+            "user_name": user["name"]
+        }
 
         return redirect(url_for("customer.customer_home"))
 
@@ -106,5 +112,5 @@ def customer_login():
 @auth.route("/customer/logout")
 def customer_logout():
 
-    session.clear()
+    session.pop("customer", None)
     return redirect(url_for("customer.customer_home"))

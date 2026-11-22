@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
 <body class="dashboard-page">
 
     <header class="dashboard-header">
@@ -38,9 +36,11 @@
             {{ message }}
         </div>
         {% endfor %} {% endwith %}
+
         <div class="table-container">
 
             <table class="inventory-table">
+
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -55,9 +55,11 @@
                 <tbody>
                     {% for product in products %}
                     <tr>
+
                         <td>{{ product.name }}</td>
                         <td>{{ product.category }}</td>
                         <td>{{ product.quantity }}</td>
+
                         <td>
                             <form method="POST" action="{{ url_for('products.update_stock', product_id=product.id) }}" class="stock-update-form">
 
@@ -67,15 +69,17 @@
 
                             </form>
                         </td>
+
                         <td>{{ product.min_stock }}</td>
 
                         <td>
                             {% if product.quantity == 0 %}
                             <span class="stock-out">Out of Stock</span> {% elif product.quantity
-                            <=product.min_stock %} <span class="stock-low">Low Stock</span>
+                            <=p roduct.min_stock %} <span class="stock-low">Low Stock</span>
                                 {% else %}
                                 <span class="stock-good">In Stock</span> {% endif %}
                         </td>
+
                     </tr>
 
                     {% else %}
@@ -84,8 +88,11 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+
             </table>
+
         </div>
+
     </main>
 
 </body>

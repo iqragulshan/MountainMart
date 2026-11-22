@@ -9,14 +9,31 @@ from app.database import get_db
 orders = Blueprint("orders", __name__)
 
 
+# MANAGER AUTHENTICATION
+def manager_required():
+
+    if not session.get("manager"):
+        return redirect(url_for("auth.manager_login"))
+
+    return None
+
+
+# CUSTOMER AUTHENTICATION
+def customer_required():
+
+    if not session.get("customer"):
+        return redirect(url_for("auth.customer_login"))
+
+    return None
+
+
+# MANAGER ORDERS
 @orders.route("/manager/orders")
 def view_orders():
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    access_error = manager_required()
+    if access_error:
+        return access_error
 
     db = get_db()
 
@@ -42,11 +59,9 @@ def view_orders():
 @orders.route("/manager/orders/<int:order_id>")
 def order_details(order_id):
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    access_error = manager_required()
+    if access_error:
+        return access_error
 
     db = get_db()
 
@@ -90,11 +105,9 @@ def order_details(order_id):
 )
 def update_order_status(order_id):
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    access_error = manager_required()
+    if access_error:
+        return access_error
 
     allowed_statuses = [
         "Pending",
@@ -229,10 +242,13 @@ def order_success(order_id):
 @orders.route("/customer/orders")
 def customer_order_history():
 
-    if "user_id" not in session or session.get("user_role") != "customer":
-        return redirect(url_for("auth.customer_login"))
+    access_error = customer_required()
+    if access_error:
+        return access_error
 
     db = get_db()
+
+    customer_id = session["customer"]["user_id"]
 
     customer_orders = db.execute(
         """
@@ -241,7 +257,7 @@ def customer_order_history():
         WHERE customer_id = ?
         ORDER BY created_at DESC, id DESC
         """,
-        (session["user_id"],)
+        (customer_id,)
     ).fetchall()
 
     return render_template(
@@ -254,10 +270,13 @@ def customer_order_history():
 @orders.route("/customer/orders/<int:order_id>")
 def customer_order_details(order_id):
 
-    if "user_id" not in session or session.get("user_role") != "customer":
-        return redirect(url_for("auth.customer_login"))
+    access_error = customer_required()
+    if access_error:
+        return access_error
 
     db = get_db()
+
+    customer_id = session["customer"]["user_id"]
 
     order = db.execute(
         """
@@ -265,7 +284,7 @@ def customer_order_details(order_id):
         FROM orders
         WHERE id = ? AND customer_id = ?
         """,
-        (order_id, session["user_id"])
+        (order_id, customer_id)
     ).fetchone()
 
     if order is None:
@@ -290,7 +309,7 @@ def customer_order_details(order_id):
         FROM reviews
         WHERE order_id = ? AND customer_id = ?
         """,
-        (order_id, session["user_id"])
+        (order_id, customer_id)
     ).fetchone()
 
     return render_template(
@@ -308,10 +327,13 @@ def customer_order_details(order_id):
 )
 def submit_review(order_id):
 
-    if "user_id" not in session or session.get("user_role") != "customer":
-        return redirect(url_for("auth.customer_login"))
+    access_error = customer_required()
+    if access_error:
+        return access_error
 
     db = get_db()
+
+    customer_id = session["customer"]["user_id"]
 
     order = db.execute(
         """
@@ -319,7 +341,7 @@ def submit_review(order_id):
         FROM orders
         WHERE id = ? AND customer_id = ?
         """,
-        (order_id, session["user_id"])
+        (order_id, customer_id)
     ).fetchone()
 
     if order is None:
@@ -383,7 +405,7 @@ def submit_review(order_id):
         )
         VALUES (?, ?, ?, ?)
         """,
-        (order_id, session["user_id"], rating, comment)
+        (order_id, customer_id, rating, comment)
     )
 
     db.commit()

@@ -401,10 +401,14 @@ def checkout():
                             f"Insufficient stock for {item['product']['name']}."
                         )
 
+                # Get customer ID from the independent customer session.
+                # Guest checkout remains available.
                 customer_id = None
 
-                if session.get("user_role") == "customer":
-                    customer_id = session.get("user_id")
+                customer_session = session.get("customer")
+
+                if customer_session:
+                    customer_id = customer_session.get("user_id")
 
                 # Create order
                 cursor = db.execute(

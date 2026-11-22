@@ -84,17 +84,22 @@
                             <td>{{ customer.created_at or '-' }}</td>
 
                             <td>
-
                                 {% if customer.customer_type == 'Guest' %}
 
-                                <a href="{{ url_for('customers.guest_customer_details', phone=customer.phone) }}" class="edit-btn">
+                                <a href="{{ url_for(
+                                            'customers.guest_customer_details',
+                                            phone=customer.phone,
+                                            name=customer.name
+                                        ) }}" class="edit-btn">
                                         View Details
                                     </a> {% else %}
 
-                                <a href="{{ url_for('customers.customer_details', customer_id=customer.id) }}" class="edit-btn">
+                                <a href="{{ url_for(
+                                            'customers.customer_details',
+                                            customer_id=customer.id
+                                        ) }}" class="edit-btn">
                                         View Details
                                     </a> {% endif %}
-
                             </td>
 
                         </tr>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews | Mountain Mart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .reviews-page {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+        
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .reviews-header h1 {
+            margin: 0 0 8px;
+        }
+        
+        .back-link {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            background: #263b35;
+            color: white;
+        }
+        
+        .review-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 180px;
+            padding: 22px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        }
+        
+        .stat-card h3 {
+            margin: 0 0 12px;
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .stat-card p {
+            margin: 0;
+            font-size: 27px;
+            font-weight: 700;
+            color: #263b35;
+        }
+        
+        .reviews-list {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .review-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+        
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .review-name {
+            font-weight: 700;
+            color: #263b35;
+        }
+        
+        .review-rating {
+            color: #e6a323;
+            font-weight: 700;
+        }
+        
+        .review-comment {
+            color: #555;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+        
+        .review-date {
+            display: block;
+            margin-top: 14px;
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .empty-reviews {
+            text-align: center;
+            padding: 45px 20px;
+            background: white;
+            border-radius: 12px;
+            color: #777;
+        }
+        
+        @media (max-width: 600px) {
+            .reviews-page {
+                padding: 14px;
+            }
+            .review-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="reviews-page">
+
+        <header class="reviews-header">
+            <div>
+                <h1>Customer Reviews</h1>
+                <p>Read feedback shared by Mountain Mart customers.</p>
+            </div>
+
+            <a href="{{ url_for('main.manager_dashboard') }}" class="back-link">
+                Back to Dashboard
+            </a>
+        </header>
+
+        <section class="review-stats">
+
+            <div class="stat-card">
+                <h3>Total Reviews</h3>
+                <p>{{ review_stats.total_reviews }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Average Rating</h3>
+                <p>{{ "%.1f"|format(review_stats.average_rating) }} / 5</p>
+            </div>
+
+        </section>
+
+        <section class="reviews-list">
+
+            {% if reviews %} {% for review in reviews %}
+
+            <article class="review-card">
+
+                <div class="review-top">
+                    <span class="review-name">
+                                {{ review.customer_name }}
+                            </span>
+
+                    <span class="review-rating">
+                                ★ {{ review.rating }} / 5
+                            </span>
+                </div>
+
+                <p class="review-comment">
+                    {% if review.comment %} {{ review.comment }} {% else %} No written comment provided. {% endif %}
+                </p>
+
+                <span class="review-date">
+                            {{ review.created_at }}
+                        </span>
+
+            </article>
+
+            {% endfor %} {% else %}
+
+            <div class="empty-reviews">
+                <h3>No Reviews Yet</h3>
+                <p>Customer reviews will appear here when submitted.</p>
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from app.database import get_db
 
@@ -5,11 +6,8 @@ suppliers = Blueprint("suppliers", __name__)
 
 
 def manager_required():
-    if "user_id" not in session:
+    if not session.get("manager"):
         return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
 
     return None
 
@@ -73,6 +71,7 @@ def add_supplier():
         return redirect(url_for("suppliers.view_suppliers"))
 
     return render_template("add_supplier.html")
+
 
 @suppliers.route("/manager/suppliers/edit/<int:supplier_id>", methods=["GET", "POST"])
 def edit_supplier(supplier_id):
