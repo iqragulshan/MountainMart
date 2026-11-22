@@ -76,7 +76,9 @@
 
             <main class="dashboard-container">
 
-                <h2>Welcome, {{ session.get('user_name') }}!</h2>
+                <h2>
+                    Welcome, {{ session.get('manager', {}).get('user_name', 'Manager') }}!
+                </h2>
 
                 <p class="dashboard-subtitle">
                     Here's what's happening in your store today.

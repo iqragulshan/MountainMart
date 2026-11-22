@@ -6,15 +6,20 @@ from app.database import get_db
 customers = Blueprint("customers", __name__)
 
 
+# MANAGER AUTHENTICATION
+def manager_required():
+    if not session.get("manager"):
+        return redirect(url_for("auth.manager_login"))
+    return None
+
+
 # CUSTOMER LIST
 @customers.route("/manager/customers")
 def customer_list():
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    auth_check = manager_required()
+    if auth_check:
+        return auth_check
 
     search = request.args.get("search", "").strip()
     db = get_db()
@@ -94,11 +99,9 @@ def customer_list():
 @customers.route("/manager/customers/<int:customer_id>")
 def customer_details(customer_id):
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    auth_check = manager_required()
+    if auth_check:
+        return auth_check
 
     db = get_db()
 
@@ -135,11 +138,9 @@ def customer_details(customer_id):
 @customers.route("/manager/guest-customers/<path:phone>")
 def guest_customer_details(phone):
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    auth_check = manager_required()
+    if auth_check:
+        return auth_check
 
     db = get_db()
 

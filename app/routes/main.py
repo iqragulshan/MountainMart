@@ -17,11 +17,10 @@ def home():
 @main.route("/manager/dashboard")
 def manager_dashboard():
 
-    if "user_id" not in session:
-        return redirect(url_for("auth.manager_login"))
+    manager = session.get("manager")
 
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
+    if not manager:
+        return redirect(url_for("auth.manager_login"))
 
     db = get_db()
 
@@ -68,11 +67,8 @@ def manager_dashboard():
 @main.route("/manager/reports")
 def sales_reports():
 
-    if "user_id" not in session:
+    if not session.get("manager"):
         return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
 
     db = get_db()
 
@@ -90,7 +86,6 @@ def sales_reports():
         date_condition += " AND DATE(orders.created_at) <= DATE(?)"
         params.append(end_date)
 
-    # COMPLETED SALES
     completed_sales = db.execute(
         f"""
         SELECT COALESCE(SUM(total_amount), 0)
@@ -101,7 +96,6 @@ def sales_reports():
         params
     ).fetchone()[0]
 
-    # TOTAL ORDERS
     total_orders = db.execute(
         f"""
         SELECT COUNT(*)
@@ -111,7 +105,6 @@ def sales_reports():
         params
     ).fetchone()[0]
 
-    # DELIVERED ORDERS
     delivered_orders = db.execute(
         f"""
         SELECT COUNT(*)
@@ -121,7 +114,6 @@ def sales_reports():
         params
     ).fetchone()[0]
 
-    # PENDING ORDER VALUE
     pending_value = db.execute(
         f"""
         SELECT COALESCE(SUM(total_amount), 0)
@@ -132,7 +124,6 @@ def sales_reports():
         params
     ).fetchone()[0]
 
-    # MONTHLY SALES
     monthly_sales = db.execute(
         f"""
         SELECT
@@ -148,7 +139,6 @@ def sales_reports():
         params
     ).fetchall()
 
-    # BEST-SELLING PRODUCTS
     best_selling_products = db.execute(
         f"""
         SELECT
@@ -184,11 +174,8 @@ def sales_reports():
 @main.route("/manager/reports/chart-data")
 def sales_chart_data():
 
-    if "user_id" not in session:
+    if not session.get("manager"):
         return {"error": "Unauthorized"}, 401
-
-    if session.get("user_role") != "manager":
-        return {"error": "Access denied"}, 403
 
     db = get_db()
 
@@ -215,11 +202,8 @@ def sales_chart_data():
 @main.route("/manager/reviews")
 def manager_reviews():
 
-    if "user_id" not in session:
+    if not session.get("manager"):
         return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
 
     db = get_db()
 
@@ -260,11 +244,8 @@ def manager_reviews():
 @main.route("/manager/settings", methods=["GET", "POST"])
 def store_settings():
 
-    if "user_id" not in session:
+    if not session.get("manager"):
         return redirect(url_for("auth.manager_login"))
-
-    if session.get("user_role") != "manager":
-        return "Access denied!", 403
 
     db = get_db()
 

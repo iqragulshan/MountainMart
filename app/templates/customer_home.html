@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ settings.store_name if settings and settings.store_name else 'Mountain Mart' }} | General Store</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
+  
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Mountain Mart Fresh Peaks Logo.png') }}">
     <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
 
@@ -14,7 +17,7 @@
 <body class="customer-page">
 
     {% set store_name = settings.store_name if settings and settings.store_name else 'Mountain Mart' %} {% set store_description = settings.description if settings and settings.description else 'Your trusted neighbourhood general store in Gilgit. Everyday
-    essentials, conveniently available.' %}
+    essentials, conveniently available.' %} {% set customer_session = session.get('customer') %}
 
     <!-- HEADER -->
     <header class="customer-header">
@@ -27,9 +30,9 @@
 
         <div class="customer-actions">
 
-            {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+            {% if customer_session %}
             <span class="customer-login">
-                Hi, {{ session.get('user_name') }}
+                Hi, {{ customer_session.get('user_name', 'Customer') }}
             </span> {% endif %}
 
             <a href="{{ url_for('customer.view_cart') }}" class="cart-link">
@@ -37,7 +40,7 @@
                 {% if cart_count > 0 %}
                     <span class="cart-count-badge">{{ cart_count }}</span>
                 {% endif %}
-            </a> {% if session.get('user_id') and session.get('user_role') == 'customer' %}
+            </a> {% if customer_session %}
 
             <a href="{{ url_for('orders.customer_order_history') }}" class="customer-login">
                 My Orders
@@ -259,6 +262,10 @@
             {% endif %} {% if settings and settings.address %}
             <p>Address: {{ settings.address }}</p>
             {% endif %}
+
+
+        </div>
+
 
         </div>
 
